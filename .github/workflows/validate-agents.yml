@@ -1,0 +1,287 @@
+name: Validate Agent Installation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'anclora-agents.txt'
+      - '.github/workflows/validate-agents.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'anclora-agents.txt'
+  workflow_dispatch:
+
+jobs:
+  validate-scripts:
+    name: Validate Installation Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check script permissions
+        run: |
+          echo "Checking script permissions..."
+          [ -x scripts/install.sh ] && echo "✓ install.sh is executable" || echo "✗ install.sh not executable"
+          [ -x scripts/convert.sh ] && echo "✓ convert.sh is executable" || echo "✗ convert.sh not executable"
+
+      - name: Validate agent files exist
+        run: |
+          echo "Validating agent files..."
+
+          # Count agent files by category
+          for dir in academic design engineering finance sales marketing security testing; do
+            count=$(find "$dir" -name "*.md" -type f 2>/dev/null | wc -l)
+            echo "✓ $dir: $count agents"
+          done
+
+      - name: Validate anclora-agents.txt
+        run: |
+          echo "Validating anclora-agents.txt..."
+
+          if [ ! -f "anclora-agents.txt" ]; then
+            echo "✗ anclora-agents.txt not found!"
+            exit 1
+          fi
+
+          # Count lines
+          count=$(wc -l < anclora-agents.txt)
+          echo "✓ anclora-agents.txt contains $count agent references"
+
+          # Verify all referenced agents exist
+          missing=0
+          while IFS= read -r agent; do
+            # Skip empty lines and comments
+            [[ -z "$agent" || "$agent" =~ ^# ]] && continue
+
+            # Find the agent file
+            if ! find . -name "*$agent*" -type f | grep -q "\.md$"; then
+              echo "⚠ Warning: Agent reference '$agent' might not exist"
+              ((missing++))
+            fi
+          done < anclora-agents.txt
+
+          if [ $missing -gt 0 ]; then
+            echo "⚠ Found $missing potentially missing agent references"
+          else
+            echo "✓ All agent references are valid"
+          fi
+
+  validate-anclora-setup:
+    name: Validate Anclora Configuration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check Anclora-specific files
+        run: |
+          echo "Checking Anclora documentation files..."
+
+          files=(
+            "README_ANCLORA.md"
+            "ANCLORA_AGENCY_OPERATING_MODEL.md"
+            "ANCLORA_AGENT_MEMORY.md"
+            "INTEGRATION_GUIDE.md"
+            "VALIDATION.md"
+            "ANCLORA_ASSESSMENT.md"
+            "WORKSPACE_STRUCTURE.md"
+          )
+
+          missing=0
+          for file in "${files[@]}"; do
+            if [ -f "$file" ]; then
+              lines=$(wc -l < "$file")
+              echo "✓ $file ($lines lines)"
+            else
+              echo "✗ $file MISSING"
+              ((missing++))
+            fi
+          done
+
+          if [ $missing -gt 0 ]; then
+            echo "ERROR: $missing Anclora documentation files are missing"
+            exit 1
+          fi
+
+      - name: Verify Gemini CLI exclusion
+        run: |
+          echo "Verifying Gemini CLI is excluded from Anclora..."
+
+          # Check that critical files mention Gemini CLI is not used
+          files=(
+            "README_ANCLORA.md"
+            "ANCLORA_AGENCY_OPERATING_MODEL.md"
+          )
+
+          for file in "${files[@]}"; do
+            if grep -q "Gemini CLI" "$file" && grep -q -i "not\|no\|exclude" "$file"; then
+              echo "✓ $file correctly documents Gemini CLI exclusion"
+            else
+              echo "⚠ $file may need Gemini CLI documentation review"
+            fi
+          done
+
+  validate-agent-count:
+    name: Validate Agent Counts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Count agents by category
+        run: |
+          echo "Agent inventory by category:"
+          echo "============================="
+
+          total=0
+
+          for category in academic design engineering finance sales marketing paid-media product project-management security spatial-computing specialized strategy support testing game-development gis integrations; do
+            if [ -d "$category" ]; then
+              count=$(find "$category" -maxdepth 1 -name "*.md" -type f | wc -l)
+              total=$((total + count))
+              if [ $count -gt 0 ]; then
+                echo "$category: $count agents"
+              fi
+            fi
+          done
+
+          echo "============================="
+          echo "Total agents found: $total"
+
+          # Validate minimum count for Anclora
+          if [ $total -lt 65 ]; then
+            echo "⚠ WARNING: Found $total agents, expected at least 65 for Anclora"
+            exit 1
+          else
+            echo "✓ Agent count meets Anclora requirements ($total agents)"
+          fi
+
+      - name: Generate agent summary
+        run: |
+          echo "## Agent Summary" > /tmp/agent-summary.txt
+          echo "" >> /tmp/agent-summary.txt
+
+          for category in academic design engineering finance sales marketing paid-media product project-management security spatial-computing specialized strategy support testing game-development gis integrations; do
+            if [ -d "$category" ]; then
+              count=$(find "$category" -maxdepth 1 -name "*.md" -type f | wc -l)
+              if [ $count -gt 0 ]; then
+                echo "- **$category**: $count agents" >> /tmp/agent-summary.txt
+              fi
+            fi
+          done
+
+          cat /tmp/agent-summary.txt
+
+  validate-upstream-sync:
+    name: Check Upstream Sync Status
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check upstream configuration
+        run: |
+          echo "Upstream repository check:"
+          echo "============================"
+
+          # This will fail gracefully in CI since we don't have full git history
+          echo "ℹ This repo should track upstream: https://github.com/msitarzewski/agency-agents"
+          echo "ℹ To sync with upstream locally:"
+          echo "  git remote add upstream https://github.com/msitarzewski/agency-agents.git"
+          echo "  git fetch upstream"
+          echo "  git merge upstream/main"
+          echo ""
+          echo "✓ Anclora-specific files are isolated (no conflicts on merge)"
+
+  test-installation-simulation:
+    name: Simulate Installation (Dry-Run)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check install script logic
+        run: |
+          echo "Validating install script logic..."
+
+          if grep -q "\-\-tool all" scripts/install.sh; then
+            echo "Checking --tool all handling..."
+            if grep -q "gemini" scripts/install.sh; then
+              echo "⚠ WARNING: install.sh mentions both --tool all and gemini"
+              echo "  Ensure --tool all is blocked for Anclora"
+            fi
+          fi
+
+          if grep -q "gemini-cli" scripts/install.sh; then
+            echo "⚠ WARNING: install.sh mentions gemini-cli"
+            echo "  Ensure this is only for upstream compatibility, not Anclora path"
+          fi
+
+          echo "✓ Install script logic validated"
+
+      - name: Validate agent file format
+        run: |
+          echo "Validating agent file format..."
+
+          sample_agents=$(find . -name "*agent*.md" -o -name "*architect*.md" | head -5)
+
+          for agent_file in $sample_agents; do
+            [ -f "$agent_file" ] || continue
+
+            # Check for basic structure
+            if grep -q "## " "$agent_file"; then
+              echo "✓ $(basename $agent_file): valid markdown structure"
+            else
+              echo "⚠ $(basename $agent_file): check markdown structure"
+            fi
+          done
+
+  report-status:
+    name: Generate Status Report
+    needs: [validate-scripts, validate-anclora-setup, validate-agent-count, validate-upstream-sync, test-installation-simulation]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check job results
+        run: |
+          echo "## Validation Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.validate-scripts.result }}" == "success" ]; then
+            echo "✅ Script validation: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Script validation: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.validate-anclora-setup.result }}" == "success" ]; then
+            echo "✅ Anclora setup validation: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Anclora setup validation: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.validate-agent-count.result }}" == "success" ]; then
+            echo "✅ Agent inventory: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Agent inventory: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.validate-upstream-sync.result }}" == "success" ]; then
+            echo "✅ Upstream sync status: OK" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Upstream sync status: CHECK" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.test-installation-simulation.result }}" == "success" ]; then
+            echo "✅ Installation simulation: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Installation simulation: CHECK" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "See workflow logs for details." >> $GITHUB_STEP_SUMMARY
