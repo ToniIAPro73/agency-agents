@@ -1,6 +1,7 @@
 # 🤝 Contributing to The Agency
 
-First off, thank you for considering contributing to The Agency! It's people like you who make this collection of AI agents better for everyone.
+First off, thank you for considering contributing to The Agency! It's people like you who make this
+collection of AI agents better for everyone.
 
 ## 📋 Table of Contents
 
@@ -15,16 +16,18 @@ First off, thank you for considering contributing to The Agency! It's people lik
 
 ## 📜 Code of Conduct
 
-This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code:
+This project and everyone participating in it is governed by our Code of Conduct. By participating,
+you are expected to uphold this code:
 
-- **Be Respectful**: Treat everyone with respect. Healthy debate is encouraged, but personal attacks are not tolerated.
+- **Be Respectful**: Treat everyone with respect. Healthy debate is encouraged, but personal
+attacks are not tolerated.
 - **Be Inclusive**: Welcome and support people of all backgrounds and identities.
 - **Be Collaborative**: What we create together is better than what we create alone.
 - **Be Professional**: Keep discussions focused on improving the agents and the community.
 
 ---
 
-## 🎯 How Can I Contribute?
+## 🎯 How Can I Contribute
 
 ### 1. Create a New Agent
 
@@ -94,7 +97,9 @@ color: colorname or "#hexcode"
 emoji: 🎯
 vibe: One-line personality hook — what makes this agent memorable
 services:                              # optional — only if the agent requires external services
+
   - name: Service Name
+
     url: https://service-url.com
     tier: free                         # free, freemium, or paid
 ---
@@ -102,55 +107,69 @@ services:                              # optional — only if the agent requires
 # Agent Name
 
 ## 🧠 Your Identity & Memory
+
 - **Role**: Clear role description
 - **Personality**: Personality traits and communication style
 - **Memory**: What the agent remembers and learns
 - **Experience**: Domain expertise and perspective
 
 ## 🎯 Your Core Mission
+
 - Primary responsibility 1 with clear deliverables
 - Primary responsibility 2 with clear deliverables
 - Primary responsibility 3 with clear deliverables
 - **Default requirement**: Always-on best practices
 
 ## 🚨 Critical Rules You Must Follow
+
 Domain-specific rules and constraints that define the agent's approach
 
 ## 📋 Your Technical Deliverables
+
 Concrete examples of what the agent produces:
+
 - Code samples
 - Templates
 - Frameworks
 - Documents
 
 ## 🔄 Your Workflow Process
+
 Step-by-step process the agent follows:
+
 1. Phase 1: Discovery and research
 2. Phase 2: Planning and strategy
 3. Phase 3: Execution and implementation
 4. Phase 4: Review and optimization
 
 ## 💭 Your Communication Style
+
 - How the agent communicates
 - Example phrases and patterns
 - Tone and approach
 
 ## 🔄 Learning & Memory
+
 What the agent learns from:
+
 - Successful patterns
 - Failed approaches
 - User feedback
 - Domain evolution
 
 ## 🎯 Your Success Metrics
+
 Measurable outcomes:
+
 - Quantitative metrics (with numbers)
 - Qualitative indicators
 - Performance benchmarks
 
 ## 🚀 Advanced Capabilities
+
 Advanced techniques and approaches the agent masters
-```
+
+```text
 
 ### Agent Structure
 
@@ -158,11 +177,13 @@ Agent files are organized into two semantic groups that map to
 OpenClaw's workspace format and help other tools parse your agent:
 
 #### Persona (who the agent is)
+
 - **Identity & Memory** — role, personality, background
 - **Communication Style** — tone, voice, approach
 - **Critical Rules** — boundaries and constraints
 
 #### Operations (what the agent does)
+
 - **Core Mission** — primary responsibilities
 - **Technical Deliverables** — concrete outputs and templates
 - **Workflow Process** — step-by-step methodology
@@ -209,9 +230,13 @@ those services are essential to the agent's function. When they do:
 
 1. **Declare dependencies** in frontmatter using the `services` field
 2. **The agent must stand on its own** — strip the API calls and there
+
    should still be a useful persona, workflow, and expertise underneath
+
 3. **Don't duplicate vendor docs** — reference them, don't reproduce them.
+
    The agent file should read like an agent, not a getting-started guide
+
 4. **Prefer services with free tiers** so contributors can test the agent
 
 The test: *is this agent for the user, or for the vendor?* An agent that
@@ -220,13 +245,20 @@ quickstart guide wearing an agent costume does not.
 
 ### Tool-Specific Compatibility
 
-**Qwen Code Compatibility**: Agent bodies support `${variable}` templating for dynamic context (e.g., `${project_name}`, `${task_description}`). Qwen SubAgents use minimal frontmatter: only `name` and `description` are required; `color`, `emoji`, and `version` fields are omitted as Qwen doesn't use them.
+**Qwen Code Compatibility**: Agent bodies support `${variable}` templating for dynamic context
+(e.g., `${project_name}`, `${task_description}`). Qwen SubAgents use minimal frontmatter: only
+`name` and `description` are required; `color`, `emoji`, and `version` fields are omitted as Qwen
+doesn't use them.
 
-**Codex Compatibility**: Codex custom agents are generated as standalone TOML files. The Codex integration keeps a minimal 1:1 mapping: `name` and `description` are copied from frontmatter, and the Markdown body becomes `developer_instructions`. Source-only metadata such as `color`, `emoji`, `vibe`, and other unsupported frontmatter fields are omitted.
+**Codex Compatibility**: Codex custom agents are generated as standalone TOML files. The Codex
+integration keeps a minimal 1:1 mapping: `name` and `description` are copied from frontmatter, and
+the Markdown body becomes `developer_instructions`. Source-only metadata such as `color`, `emoji`,
+`vibe`, and other unsupported frontmatter fields are omitted.
 
-### What Makes a Great Agent?
+### What Makes a Great Agent
 
 **Great agents have**:
+
 - ✅ Narrow, deep specialization
 - ✅ Distinct personality and voice
 - ✅ Concrete code/template examples
@@ -235,6 +267,7 @@ quickstart guide wearing an agent costume does not.
 - ✅ Real-world testing and iteration
 
 **Avoid**:
+
 - ❌ Generic "helpful assistant" personality
 - ❌ Vague "I will help you with..." descriptions
 - ❌ No code examples or deliverables
@@ -247,16 +280,19 @@ quickstart guide wearing an agent costume does not.
 
 ### What Belongs in a PR (and What Doesn't)
 
-The fastest path to a merged PR is **one markdown file** — a new or improved agent. That's the sweet spot.
+The fastest path to a merged PR is **one markdown file** — a new or improved agent. That's the
+sweet spot.
 
 For anything beyond that, here's how we keep things smooth:
 
 #### Always welcome as a PR
+
 - Adding a new agent (one `.md` file)
 - Improving an existing agent's content, examples, or personality
 - Fixing typos or clarifying docs
 
 #### Start a Discussion first
+
 - New tooling, build systems, or CI workflows
 - Architectural changes (new directories, new scripts, site generators)
 - Changes that touch many files across the repo
@@ -265,9 +301,14 @@ For anything beyond that, here's how we keep things smooth:
 We love ambitious ideas — a [Discussion](https://github.com/msitarzewski/agency-agents/discussions) just gives the community a chance to align on approach before code gets written. It saves everyone time, especially yours.
 
 #### Things we'll always close
-- **Committed build output**: Generated files (`_site/`, compiled assets, converted agent files) should never be checked in. Users run `convert.sh` locally; all output is gitignored.
-- **PRs that bulk-modify existing agents** without a prior discussion — even well-intentioned reformatting can create merge conflicts for other contributors.
-- **Near-duplicate "re-skins"**: New agents that are find-replace copies of an existing one (e.g. swapping a country or platform name) rather than genuinely new specialists. Run `scripts/check-agent-originality.sh` before submitting — CI runs it automatically.
+
+- **Committed build output**: Generated files (`_site/`, compiled assets, converted agent files)
+should never be checked in. Users run `convert.sh` locally; all output is gitignored.
+- **PRs that bulk-modify existing agents** without a prior discussion — even well-intentioned
+reformatting can create merge conflicts for other contributors.
+- **Near-duplicate "re-skins"**: New agents that are find-replace copies of an existing one (e.g.
+swapping a country or platform name) rather than genuinely new specialists. Run
+`scripts/check-agent-originality.sh` before submitting — CI runs it automatically.
 
 ### Before Submitting
 
@@ -276,7 +317,10 @@ We love ambitious ideas — a [Discussion](https://github.com/msitarzewski/agenc
 3. **Add Examples**: Include at least 2-3 code/template examples
 4. **Define Metrics**: Include specific, measurable success criteria
 5. **Proofread**: Check for typos, formatting issues, clarity
-6. **Check it's original**: Run `./scripts/check-agent-originality.sh path/to/your-agent.md`. It compares your agent against the whole roster and flags near-duplicates (a swapped country/platform name won't fool it). A new agent should be genuinely new — if you're localizing for a market, make the platforms, tactics, and examples actually different, not a find-replace.
+6. **Check it's original**: Run `./scripts/check-agent-originality.sh path/to/your-agent.md`. It
+compares your agent against the whole roster and flags near-duplicates (a swapped country/platform
+name won't fool it). A new agent should be genuinely new — if you're localizing for a market, make
+the platforms, tactics, and examples actually different, not a find-replace.
 
 ### Submitting Your PR
 
@@ -301,18 +345,23 @@ We love ambitious ideas — a [Discussion](https://github.com/msitarzewski/agenc
 ### PR Template
 
 ```markdown
+
 ## Agent Information
+
 **Agent Name**: [Name]
 **Category**: [engineering/design/marketing/etc.]
 **Specialty**: [One-line description]
 
 ## Motivation
+
 [Why is this agent needed? What gap does it fill?]
 
 ## Testing
+
 [How have you tested this agent? Real-world use cases?]
 
 ## Checklist
+
 - [ ] Original — not a near-duplicate (ran `scripts/check-agent-originality.sh`)
 - [ ] Follows agent template structure
 - [ ] Includes personality and voice
@@ -321,7 +370,8 @@ We love ambitious ideas — a [Discussion](https://github.com/msitarzewski/agenc
 - [ ] Includes step-by-step workflow
 - [ ] Proofread and formatted correctly
 - [ ] Tested in real scenarios
-```
+
+```text
 
 ---
 
@@ -345,6 +395,7 @@ We love ambitious ideas — a [Discussion](https://github.com/msitarzewski/agenc
 ### Code Examples
 
 ```markdown
+
 ## Example Code Block
 
 \`\`\`typescript
@@ -360,7 +411,8 @@ interface AgentExample {
   deliverables: string[];
 }
 \`\`\`
-```
+
+```text
 
 ### Tone
 
@@ -382,7 +434,7 @@ Contributors who make significant contributions will be:
 
 ---
 
-## 🤔 Questions?
+## 🤔 Questions
 
 - **General Questions**: [GitHub Discussions](https://github.com/msitarzewski/agency-agents/discussions)
 - **Bug Reports**: [GitHub Issues](https://github.com/msitarzewski/agency-agents/issues)
@@ -396,8 +448,10 @@ Contributors who make significant contributions will be:
 ### For New Contributors
 
 - [README.md](README.md) - Overview and agent catalog
-- [Example: Frontend Developer](engineering/engineering-frontend-developer.md) - Well-structured agent example
-- [Example: Reddit Community Builder](marketing/marketing-reddit-community-builder.md) - Great personality example
+- [Example: Frontend Developer](engineering/engineering-frontend-developer.md) - Well-structured
+agent example
+- [Example: Reddit Community Builder](marketing/marketing-reddit-community-builder.md) - Great
+personality example
 - [Example: Whimsy Injector](design/design-whimsy-injector.md) - Creative specialist example
 
 ### For Agent Design
@@ -409,7 +463,7 @@ Contributors who make significant contributions will be:
 
 ---
 
-## 🎉 Thank You!
+## 🎉 Thank You
 
 Your contributions make The Agency better for everyone. Whether you're:
 

@@ -71,12 +71,12 @@ You are **ArchitectUX**, a technical architecture and UX specialist who creates 
   --text-primary: [spec-light-text];
   --text-secondary: [spec-light-text-muted];
   --border-color: [spec-light-border];
-  
+
   /* Brand Colors - From project specification */
   --primary-color: [spec-primary];
   --secondary-color: [spec-secondary];
   --accent-color: [spec-accent];
-  
+
   /* Typography Scale */
   --text-xs: 0.75rem;    /* 12px */
   --text-sm: 0.875rem;   /* 14px */
@@ -85,7 +85,7 @@ You are **ArchitectUX**, a technical architecture and UX specialist who creates 
   --text-xl: 1.25rem;    /* 20px */
   --text-2xl: 1.5rem;    /* 24px */
   --text-3xl: 1.875rem;  /* 30px */
-  
+
   /* Spacing System */
   --space-1: 0.25rem;    /* 4px */
   --space-2: 0.5rem;     /* 8px */
@@ -94,7 +94,7 @@ You are **ArchitectUX**, a technical architecture and UX specialist who creates 
   --space-8: 2rem;       /* 32px */
   --space-12: 3rem;      /* 48px */
   --space-16: 4rem;      /* 64px */
-  
+
   /* Layout System */
   --container-sm: 640px;
   --container-md: 768px;

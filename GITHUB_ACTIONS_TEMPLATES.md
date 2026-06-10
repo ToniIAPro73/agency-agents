@@ -1,7 +1,7 @@
 # GitHub Actions Templates for Anclora Workflows
 
-**Purpose**: Reusable CI/CD workflow templates for different infrastructure combinations  
-**Updated**: 2026-06-10  
+**Purpose**: Reusable CI/CD workflow templates for different infrastructure combinations
+**Updated**: 2026-06-10
 **Usage**: Copy and customize for your repository
 
 ---
@@ -10,12 +10,12 @@
 
 Anclora repos use different infrastructure combinations:
 
-| Pattern | Frontend | Backend | Database | Example |
-| --- | --- | --- | --- | --- |
-| **Pattern A** | Vercel | Render | Supabase | Nexus, SyncXML |
-| **Pattern B** | Vercel | Vercel Serverless | Neon | Content Generator |
-| **Pattern C** | Self-hosted | Render | PostgreSQL | Data Lab |
-| **Pattern D** | Vercel | Lambda | DynamoDB | Future |
+ | Pattern | Frontend | Backend | Database | Example |
+ | --- | --- | --- | --- | --- |
+ | **Pattern A** | Vercel | Render | Supabase | Nexus, SyncXML |
+ | **Pattern B** | Vercel | Vercel Serverless | Neon | Content Generator |
+ | **Pattern C** | Self-hosted | Render | PostgreSQL | Data Lab |
+ | **Pattern D** | Vercel | Lambda | DynamoDB | Future |
 
 This document provides templates for each pattern.
 
@@ -40,19 +40,24 @@ jobs:
   lint-and-type-check:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
+
         run: npm ci
-      
+
       - name: Lint
+
         run: npm run lint
-      
+
       - name: Type check
+
         run: npm run type-check
 
   test:
@@ -68,24 +73,30 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
+
           - 5432:5432
 
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
+
         run: npm ci
-      
+
       - name: Run tests
+
         run: npm test -- --coverage
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-      
+
       - name: Upload coverage
+
         uses: codecov/codecov-action@v3
         with:
           files: ./coverage/lcov.info
@@ -95,37 +106,46 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint-and-type-check, test]
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
+
         run: npm ci
-      
+
       - name: Build frontend
+
         run: npm run build
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.DEV_API_URL }}
-      
+
       - name: Build backend
+
         working-directory: ./backend
         run: npm run build
 
   security:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
+
         run: npm ci
-      
+
       - name: Security audit
+
         run: npm audit --audit-level=moderate
         continue-on-error: true
 
@@ -134,15 +154,18 @@ jobs:
     needs: [build, security]
     if: github.event_name == 'pull_request'
     steps:
+
       - uses: actions/checkout@v4
       - uses: vercel/action@main
+
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_FRONTEND }}
           scope: ${{ secrets.VERCEL_ORG_ID }}
           args: --prod=false
-```
+
+```text
 
 ### `.github/workflows/deploy-staging.yml`
 
@@ -162,16 +185,20 @@ jobs:
         env:
           POSTGRES_PASSWORD: postgres
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
+
         run: npm ci
-      
+
       - name: Run e2e tests
+
         run: npm run test:e2e
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
@@ -180,12 +207,15 @@ jobs:
   load-test:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+
         with:
           node-version: '20'
-      
+
       - name: Run load tests
+
         run: npm run test:load
         env:
           TARGET_URL: ${{ secrets.STAGING_API_URL }}
@@ -195,8 +225,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-staging, load-test]
     steps:
+
       - uses: actions/checkout@v4
       - uses: vercel/action@main
+
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
@@ -210,8 +242,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-staging, load-test]
     steps:
+
       - uses: actions/checkout@v4
       - name: Deploy to Render
+
         run: |
           curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }} -X POST
         env:
@@ -221,13 +255,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: [deploy-backend-staging]
     steps:
+
       - uses: actions/checkout@v4
       - name: Run migrations
+
         run: npm run migrate:staging
         env:
           SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID_STAGING }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD_STAGING }}
-```
+
+```text
 
 ### `.github/workflows/deploy-production.yml`
 
@@ -238,18 +275,22 @@ on:
   push:
     branches: [production]
     tags:
+
       - 'v*'
 
 jobs:
   smoke-tests:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+
         with:
           node-version: '20'
-      
+
       - name: Run smoke tests
+
         run: npm run test:smoke
         env:
           API_URL: ${{ secrets.PRODUCTION_API_URL }}
@@ -258,8 +299,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [smoke-tests]
     steps:
+
       - uses: actions/checkout@v4
       - name: Deploy canary (5% traffic)
+
         run: |
           echo "Deploying to 5% traffic"
           # Platform-specific canary logic
@@ -269,7 +312,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [canary-deployment]
     steps:
+
       - name: Check monitoring alerts
+
         run: |
           # Verify alerting is configured
           echo "Verifying production monitoring"
@@ -279,8 +324,10 @@ jobs:
     needs: [monitor]
     environment: production
     steps:
+
       - uses: actions/checkout@v4
       - uses: vercel/action@main
+
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
@@ -291,6 +338,7 @@ jobs:
           NEXT_PUBLIC_API_URL: ${{ secrets.PRODUCTION_API_URL }}
 
       - name: Deploy backend to Render
+
         run: |
           curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }} -X POST
         env:
@@ -300,7 +348,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [deploy-production]
     steps:
+
       - name: Validate production deployment
+
         run: |
           # Health checks
           curl -f https://api.anclora.app/health || exit 1
@@ -308,10 +358,12 @@ jobs:
           npm run test:production
 
       - name: Notify deployment
+
         run: |
           # Send notification (Slack, email, etc.)
           echo "Production deployment successful"
-```
+
+```text
 
 ---
 
@@ -338,25 +390,32 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+
         with:
           node-version: '20'
           cache: 'npm'
-      
+
       - name: Install dependencies
+
         run: npm ci
-      
+
       - name: Lint
+
         run: npm run lint
-      
+
       - name: Type check
+
         run: npm run type-check
-      
+
       - name: Unit tests
+
         run: npm test -- --coverage
-      
+
       - name: Integration tests
+
         run: npm run test:integration
         env:
           DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
@@ -366,8 +425,10 @@ jobs:
     needs: [lint-and-test]
     if: github.event_name == 'pull_request'
     steps:
+
       - uses: actions/checkout@v4
       - uses: vercel/action@main
+
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
@@ -377,7 +438,8 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
           BLOB_TOKEN: ${{ secrets.DEV_BLOB_TOKEN }}
-```
+
+```text
 
 ### `.github/workflows/deploy-production-vercel.yml`
 
@@ -397,9 +459,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+
       - uses: actions/checkout@v4
-      
+
       - name: Deploy to Vercel
+
         uses: vercel/action@main
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -412,8 +476,10 @@ jobs:
           BLOB_TOKEN: ${{ secrets.PRODUCTION_BLOB_TOKEN }}
 
       - name: Run migrations
+
         run: npm run migrate:prod
-```
+
+```text
 
 ---
 
@@ -432,8 +498,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v4
       - uses: docker/build-push-action@v5
+
         with:
           push: false
           load: true
@@ -444,7 +512,9 @@ jobs:
     if: github.ref == 'refs/heads/development'
     needs: [build]
     steps:
+
       - name: Deploy to development
+
         run: |
           # SSH into deployment server and pull latest
           ssh ${{ secrets.DEV_SERVER_USER }}@${{ secrets.DEV_SERVER_HOST }} << 'EOF'
@@ -460,7 +530,9 @@ jobs:
     environment: production
     needs: [build]
     steps:
+
       - name: Deploy to production
+
         run: |
           ssh ${{ secrets.PROD_SERVER_USER }}@${{ secrets.PROD_SERVER_HOST }} << 'EOF'
             cd /app
@@ -469,7 +541,8 @@ jobs:
             npm run migrate
             npm run health-check
           EOF
-```
+
+```text
 
 ---
 
@@ -479,14 +552,17 @@ jobs:
 
 Every repo needs these secrets:
 
-```
+```text
+
 # Vercel
+
 VERCEL_TOKEN
 VERCEL_ORG_ID
 VERCEL_PROJECT_ID_FRONTEND
 VERCEL_PROJECT_ID_BACKEND
 
 # Database (Pattern A)
+
 SUPABASE_PROJECT_ID
 SUPABASE_DB_PASSWORD
 DEV_DATABASE_URL
@@ -494,46 +570,56 @@ STAGING_DATABASE_URL
 PRODUCTION_DATABASE_URL
 
 # Database (Pattern B)
+
 DEV_BLOB_TOKEN
 PRODUCTION_BLOB_TOKEN
 
 # Render
+
 RENDER_API_KEY
 RENDER_SERVICE_ID
 RENDER_SERVICE_STAGING_ID
 RENDER_SERVICE_PRODUCTION_ID
 
 # URLs
+
 DEV_API_URL
 STAGING_API_URL
 PRODUCTION_API_URL
 
 # Self-hosted
+
 DEV_SERVER_USER
 DEV_SERVER_HOST
 PROD_SERVER_USER
 PROD_SERVER_HOST
-```
+
+```text
 
 ### Environment Variables Template
 
 Create `.env.example` in repo root:
 
 ```bash
+
 # Development
+
 NODE_ENV=development
 DATABASE_URL=postgresql://user:password@localhost:5432/dev_db
 API_URL=http://localhost:3000
 NEXT_PUBLIC_API_URL=http://localhost:3001
 
 # Staging (set in CI/CD)
+
 STAGING_DATABASE_URL=
 STAGING_API_URL=
 
 # Production (set in CI/CD)
+
 PRODUCTION_DATABASE_URL=
 PRODUCTION_API_URL=
-```
+
+```text
 
 ---
 
@@ -553,35 +639,44 @@ PRODUCTION_API_URL=
 Use **act** to test GitHub Actions locally:
 
 ```bash
+
 # Install act (https://github.com/nektos/act)
+
 brew install act
 
 # List available jobs
+
 act -l
 
 # Run specific job
+
 act push --job lint-and-type-check
 
 # Run with secrets
+
 act -s VERCEL_TOKEN=your_token
-```
+
+```text
 
 ---
 
 ## Troubleshooting Workflows
 
 ### Workflow doesn't trigger
+
 - [ ] Check branch name matches `on.push.branches`
 - [ ] Verify branch protection rules don't block
 - [ ] Check if branch exists remotely
 
 ### Steps fail silently
+
 - [ ] Check `continue-on-error: true` (removes red flags)
 - [ ] Check environment variables are set
 - [ ] Check secrets are added to GitHub
 - [ ] Check job dependencies with `needs:`
 
 ### Deployment fails
+
 - [ ] Verify API keys/tokens are current
 - [ ] Check service quotas (Vercel, Render, etc.)
 - [ ] Review service logs (Vercel, Render dashboard)
@@ -599,10 +694,13 @@ strategy:
     node-version: [18.x, 20.x]
 
 steps:
+
   - uses: actions/setup-node@v4
+
     with:
       node-version: ${{ matrix.node-version }}
-```
+
+```text
 
 ---
 
@@ -613,5 +711,5 @@ steps:
 
 ---
 
-**Maintained by**: Anclora Engineering Team  
+**Maintained by**: Anclora Engineering Team
 **Last updated**: 2026-06-10

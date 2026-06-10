@@ -1,13 +1,15 @@
 # Anclora Group — Agency Agents Setup & Integration
 
-**Última actualización**: 2026-06-10  
+**Última actualización**: 2026-06-10
 **Responsable**: Anclora Engineering Team
 
 ---
 
 ## 📍 Estado Actual
 
-Anclora Group utiliza este repositorio como base para instalar una agencia de agentes especializados en:
+Anclora Group utiliza este repositorio como base para instalar una agencia de agentes
+especializados en:
+
 - Desarrollo y arquitectura de software
 - Seguridad y privacidad
 - Testing y QA
@@ -24,7 +26,9 @@ Anclora Group utiliza este repositorio como base para instalar una agencia de ag
 
 ❌ **Gemini CLI** — NO autorizado ni instalado
 
-> El README.md upstream puede mencionar otras herramientas (Gemini CLI, Cursor, Aider, Windsurf, etc.). **Anclora no las usa**. Mantener el README.md original sin cambios facilita sincronización con upstream; esta guía documenta lo que SÍ es válido para Anclora.
+> El README.md upstream puede mencionar otras herramientas (Gemini CLI, Cursor, Aider, Windsurf,
+etc.). **Anclora no las usa**. Mantener el README.md original sin cambios facilita sincronización
+con upstream; esta guía documenta lo que SÍ es válido para Anclora.
 
 ---
 
@@ -36,27 +40,37 @@ Anclora Group utiliza este repositorio como base para instalar una agencia de ag
 cd /home/toni/projects/agency-agents
 
 # Convertir agentes para Codex (sin Gemini CLI)
+
 ./scripts/convert.sh --tool codex --parallel
 
 # Instalar para Claude Code usando lista Anclora
+
 ./scripts/install.sh --tool claude-code --agents-file anclora-agents.txt
 
 # Instalar para Codex usando lista Anclora
+
 ./scripts/install.sh --tool codex --agents-file anclora-agents.txt
-```
+
+```text
 
 ### Verificación Post-Instalación
 
 ```bash
+
 # Claude Code: debe mostrar 93+ agentes
+
 find ~/.claude/agents -type f | wc -l
 
 # Codex: debe mostrar 65 agentes
+
 find ~/.codex/agents -type f | wc -l
 
 # Gemini CLI: debe estar vacío o no existir
-test ! -d ~/.gemini/agents && echo "✓ Gemini CLI not present (OK)" || echo "⚠ Gemini CLI directory exists"
-```
+
+test ! -d ~/.gemini/agents && echo "✓ Gemini CLI not present (OK)" || echo "⚠ Gemini CLI directory
+exists"
+
+```text
 
 ### Comandos PROHIBIDOS en Anclora
 
@@ -65,17 +79,18 @@ test ! -d ~/.gemini/agents && echo "✓ Gemini CLI not present (OK)" || echo "�
 ./scripts/convert.sh --tool gemini-cli          # ✗ no usar
 ./scripts/install.sh --tool gemini-cli          # ✗ no usar
 ./scripts/install.sh --tool all                 # ✗ no usar
-```
+
+```text
 
 ---
 
 ## 📦 Agentes Seleccionados
 
-| Fuente | Archivo | Descripción |
-| --- | --- | --- |
-| **Final** | `anclora-agents.txt` | 65 agentes validados para Claude Code + Codex |
-| **Inicial** | `anclora-agents.requested.txt` | Solicitud original (histórico) |
-| **Documentación** | [AGENTS.md](AGENTS.md) | Catálogo completo con rutas y fases de uso |
+ | Fuente | Archivo | Descripción |
+ | --- | --- | --- |
+ | **Final** | `anclora-agents.txt` | 65 agentes validados para Claude Code + Codex |
+ | **Inicial** | `anclora-agents.requested.txt` | Solicitud original (histórico) |
+ | **Documentación** | [AGENTS.md](AGENTS.md) | Catálogo completo con rutas y fases de uso |
 
 ### Uso Recomendado por Fase
 
@@ -96,14 +111,14 @@ La memoria operativa para Anclora **NO depende de Gemini CLI**.
 
 ### Sistemas de Contexto Vigentes
 
-| Sistema | Ubicación | Propósito |
-| --- | --- | --- |
-| **Archivo de reglas** | `AGENTS.md` | Catálogo y guía de fases |
-| **Modelo operativo** | `ANCLORA_AGENCY_OPERATING_MODEL.md` | Decisiones arquitectónicas |
-| **Memoria de agentes** | `ANCLORA_AGENT_MEMORY.md` | Comportamiento esperado |
-| **Workspace** | `Anclora.code-workspace` | Integración en VS Code |
-| **Contratos** | `Boveda-Anclora/docs/contracts/` | SDD, guardrails, playbooks |
-| **Playbooks** | `Boveda-Anclora/playbooks/` | Flujos operativos |
+ | Sistema | Ubicación | Propósito |
+ | --- | --- | --- |
+ | **Archivo de reglas** | `AGENTS.md` | Catálogo y guía de fases |
+ | **Modelo operativo** | `ANCLORA_AGENCY_OPERATING_MODEL.md` | Decisiones arquitectónicas |
+ | **Memoria de agentes** | `ANCLORA_AGENT_MEMORY.md` | Comportamiento esperado |
+ | **Workspace** | `Anclora.code-workspace` | Integración en VS Code |
+ | **Contratos** | `Boveda-Anclora/docs/contracts/` | SDD, guardrails, playbooks |
+ | **Playbooks** | `Boveda-Anclora/playbooks/` | Flujos operativos |
 
 ---
 
@@ -116,7 +131,8 @@ Agency-agents está registrado en `Anclora.code-workspace` como:
   "path": "agency-agents",
   "name": "[Tools] Agency Agents"
 }
-```
+
+```text
 
 Visibilidad: Los agentes están accesibles desde Claude Code y Codex dentro del workspace de Anclora.
 
@@ -126,9 +142,12 @@ Visibilidad: Los agentes están accesibles desde Claude Code y Codex dentro del 
 
 ### Principios
 
-1. **Upstream-first**: Mantener el fork lo más sincronizado posible con `github.com/msitarzewski/agency-agents`
-2. **No modificar README.md**: El README upstream puede mencionar otras herramientas; lo aclaramos en esta guía (README_ANCLORA.md)
-3. **Aislamiento de cambios**: Las adaptaciones Anclora están en archivos específicos (README_ANCLORA.md, ANCLORA_*.md, anclora-agents.txt)
+1. **Upstream-first**: Mantener el fork lo más sincronizado posible con
+`github.com/msitarzewski/agency-agents`
+2. **No modificar README.md**: El README upstream puede mencionar otras herramientas; lo aclaramos
+en esta guía (README_ANCLORA.md)
+3. **Aislamiento de cambios**: Las adaptaciones Anclora están en archivos específicos
+(README_ANCLORA.md, ANCLORA_*.md, anclora-agents.txt)
 4. **Versionado**: Cualquier cambio en lista de agentes se registra en MEMORY.md de cada repo
 
 ### Archivos Anclora (No Tocar Upstream)
@@ -142,13 +161,16 @@ Visibilidad: Los agentes están accesibles desde Claude Code y Codex dentro del 
 ### Sincronización con Upstream
 
 ```bash
+
 # Traer cambios upstream
+
 git remote add upstream https://github.com/msitarzewski/agency-agents.git
 git fetch upstream
 git merge upstream/main
 
 # Resolver conflictos SOLO en archivos Anclora, mantener README.md original
-```
+
+```text
 
 ---
 
@@ -172,29 +194,38 @@ Anclora está correctamente configurado si:
 ### "Agent not found after installation"
 
 ```bash
+
 # Verificar ruta de instalación
+
 find ~/.claude/agents -name "*.md" | head -5
 
 # Reinstalar limpio
+
 rm -rf ~/.claude/agents
 ./scripts/install.sh --tool claude-code --agents-file anclora-agents.txt
-```
+
+```text
 
 ### "Gemini CLI agents appearing"
 
 ```bash
+
 # Limpiar
+
 rm -rf ~/.gemini/agents
 
 # Verificar que no fue instalado
+
 ./scripts/install.sh --tool codex --agents-file anclora-agents.txt
-```
+
+```text
 
 ### "Script permission denied"
 
 ```bash
 chmod +x scripts/install.sh scripts/convert.sh
-```
+
+```text
 
 ---
 

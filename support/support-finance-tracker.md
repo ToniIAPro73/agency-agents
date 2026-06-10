@@ -57,7 +57,7 @@ You are **Finance Tracker**, an expert financial analyst and controller who main
 ```sql
 -- Annual Budget with Quarterly Variance Analysis
 WITH budget_actuals AS (
-  SELECT 
+  SELECT
     department,
     category,
     budget_amount,
@@ -65,11 +65,11 @@ WITH budget_actuals AS (
     DATE_TRUNC('quarter', date) as quarter,
     budget_amount - actual_amount as variance,
     (actual_amount - budget_amount) / budget_amount * 100 as variance_percentage
-  FROM financial_data 
+  FROM financial_data
   WHERE fiscal_year = YEAR(CURRENT_DATE())
 ),
 department_summary AS (
-  SELECT 
+  SELECT
     department,
     quarter,
     SUM(budget_amount) as total_budget,
@@ -79,14 +79,14 @@ department_summary AS (
   FROM budget_actuals
   GROUP BY department, quarter
 )
-SELECT 
+SELECT
   department,
   quarter,
   total_budget,
   total_actual,
   total_variance,
   avg_variance_pct,
-  CASE 
+  CASE
     WHEN ABS(avg_variance_pct) <= 5 THEN 'On Track'
     WHEN avg_variance_pct > 5 THEN 'Over Budget'
     ELSE 'Under Budget'
@@ -107,35 +107,35 @@ class CashFlowManager:
     def __init__(self, historical_data):
         self.data = historical_data
         self.current_cash = self.get_current_cash_position()
-    
+
     def forecast_cash_flow(self, periods=12):
         """
         Generate 12-month rolling cash flow forecast
         """
         forecast = pd.DataFrame()
-        
+
         # Historical patterns analysis
         monthly_patterns = self.data.groupby('month').agg({
             'receipts': ['mean', 'std'],
             'payments': ['mean', 'std'],
             'net_cash_flow': ['mean', 'std']
         }).round(2)
-        
+
         # Generate forecast with seasonality
         for i in range(periods):
             forecast_date = datetime.now() + timedelta(days=30*i)
             month = forecast_date.month
-            
+
             # Apply seasonality factors
             seasonal_factor = self.calculate_seasonal_factor(month)
-            
-            forecasted_receipts = (monthly_patterns.loc[month, ('receipts', 'mean')] * 
+
+            forecasted_receipts = (monthly_patterns.loc[month, ('receipts', 'mean')] *
                                  seasonal_factor * self.get_growth_factor())
-            forecasted_payments = (monthly_patterns.loc[month, ('payments', 'mean')] * 
+            forecasted_payments = (monthly_patterns.loc[month, ('payments', 'mean')] *
                                  seasonal_factor)
-            
+
             net_flow = forecasted_receipts - forecasted_payments
-            
+
             forecast = forecast.append({
                 'date': forecast_date,
                 'forecasted_receipts': forecasted_receipts,
@@ -145,16 +145,16 @@ class CashFlowManager:
                 'confidence_interval_low': net_flow * 0.85,
                 'confidence_interval_high': net_flow * 1.15
             }, ignore_index=True)
-        
+
         return forecast
-    
+
     def identify_cash_flow_risks(self, forecast_df):
         """
         Identify potential cash flow problems and opportunities
         """
         risks = []
         opportunities = []
-        
+
         # Low cash warnings
         low_cash_periods = forecast_df[forecast_df['cumulative_cash'] < 50000]
         if not low_cash_periods.empty:
@@ -164,7 +164,7 @@ class CashFlowManager:
                 'minimum_cash': low_cash_periods['cumulative_cash'].min(),
                 'action_required': 'Accelerate receivables or delay payables'
             })
-        
+
         # High cash opportunities
         high_cash_periods = forecast_df[forecast_df['cumulative_cash'] > 200000]
         if not high_cash_periods.empty:
@@ -173,25 +173,25 @@ class CashFlowManager:
                 'excess_cash': high_cash_periods['cumulative_cash'].max() - 100000,
                 'recommendation': 'Consider short-term investments or prepay expenses'
             })
-        
+
         return {'risks': risks, 'opportunities': opportunities}
-    
+
     def optimize_payment_timing(self, payment_schedule):
         """
         Optimize payment timing to improve cash flow
         """
         optimized_schedule = payment_schedule.copy()
-        
+
         # Prioritize by discount opportunities
         optimized_schedule['priority_score'] = (
-            optimized_schedule['early_pay_discount'] * 
-            optimized_schedule['amount'] * 365 / 
+            optimized_schedule['early_pay_discount'] *
+            optimized_schedule['amount'] * 365 /
             optimized_schedule['payment_terms']
         )
-        
+
         # Schedule payments to maximize discounts while maintaining cash flow
         optimized_schedule = optimized_schedule.sort_values('priority_score', ascending=False)
-        
+
         return optimized_schedule
 ```
 
@@ -200,7 +200,7 @@ class CashFlowManager:
 class InvestmentAnalyzer:
     def __init__(self, discount_rate=0.10):
         self.discount_rate = discount_rate
-    
+
     def calculate_npv(self, cash_flows, initial_investment):
         """
         Calculate Net Present Value for investment decision
@@ -209,22 +209,22 @@ class InvestmentAnalyzer:
         for i, cf in enumerate(cash_flows):
             npv += cf / ((1 + self.discount_rate) ** (i + 1))
         return npv
-    
+
     def calculate_irr(self, cash_flows, initial_investment):
         """
         Calculate Internal Rate of Return
         """
         from scipy.optimize import fsolve
-        
+
         def npv_function(rate):
             return sum([cf / ((1 + rate) ** (i + 1)) for i, cf in enumerate(cash_flows)]) - initial_investment
-        
+
         try:
             irr = fsolve(npv_function, 0.1)[0]
             return irr
         except:
             return None
-    
+
     def payback_period(self, cash_flows, initial_investment):
         """
         Calculate payback period in years
@@ -235,7 +235,7 @@ class InvestmentAnalyzer:
             if cumulative_cf >= initial_investment:
                 return i + 1 - ((cumulative_cf - initial_investment) / cf)
         return None
-    
+
     def investment_analysis_report(self, project_name, initial_investment, annual_cash_flows, project_life):
         """
         Comprehensive investment analysis
@@ -244,10 +244,10 @@ class InvestmentAnalyzer:
         irr = self.calculate_irr(annual_cash_flows, initial_investment)
         payback = self.payback_period(annual_cash_flows, initial_investment)
         roi = (sum(annual_cash_flows) - initial_investment) / initial_investment * 100
-        
+
         # Risk assessment
         risk_score = self.assess_investment_risk(annual_cash_flows, project_life)
-        
+
         return {
             'project_name': project_name,
             'initial_investment': initial_investment,
@@ -258,7 +258,7 @@ class InvestmentAnalyzer:
             'risk_score': risk_score,
             'recommendation': self.get_investment_recommendation(npv, irr, payback, risk_score)
         }
-    
+
     def get_investment_recommendation(self, npv, irr, payback, risk_score):
         """
         Generate investment recommendation based on analysis

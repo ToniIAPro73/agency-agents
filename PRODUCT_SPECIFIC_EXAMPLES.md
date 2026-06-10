@@ -1,20 +1,22 @@
 # Product-Specific Examples — Using Agency Agents in Anclora Products
 
-**Purpose**: Real-world examples of how to use agents in each Anclora product  
-**Updated**: 2026-06-10  
+**Purpose**: Real-world examples of how to use agents in each Anclora product
+**Updated**: 2026-06-10
 **Status**: MEDIUM PRIORITY (implement after HIGH PRIORITY features)
 
 ---
 
 ## Overview
 
-This guide shows concrete examples of how to use Agency Agents for specific Anclora products. Each product has unique requirements; these examples show how agents adapt.
+This guide shows concrete examples of how to use Agency Agents for specific Anclora products. Each
+product has unique requirements; these examples show how agents adapt.
 
 ---
 
 ## 1. Anclora Nexus — Real-time Conversion Hub
 
 ### What Nexus Does
+
 Central platform for converting, coordinating, and supporting product flows.
 
 ### Recommended Agents & Workflows
@@ -24,15 +26,17 @@ Central platform for converting, coordinating, and supporting product flows.
 **Feature**: Real-time notification system
 
 ```markdown
+
 ## SPEC.md — Real-time Notifications in Nexus
 
 Use the Product Manager agent:
 "Define the specification for a real-time notification system in Nexus.
-Include: user notifications, admin broadcasts, delivery guarantees, 
+Include: user notifications, admin broadcasts, delivery guarantees,
 mobile push notifications. Target users: 100K daily active, P95 latency <500ms"
 
 Expected output: SPEC.md with acceptance criteria
-```
+
+```text
 
 #### Phase 2: Architecture
 
@@ -40,9 +44,10 @@ Expected output: SPEC.md with acceptance criteria
 
 ```markdown
 Use the Backend Architect agent:
-"Design the real-time notification system for Nexus. 
+"Design the real-time notification system for Nexus.
 Infrastructure: Vercel frontend, Render backend, Supabase database.
-Requirements: 
+Requirements:
+
 - 100K concurrent users
 - WebSocket for real-time delivery
 - Batch email delivery
@@ -52,9 +57,10 @@ Include deployment strategy (staging → production)"
 
 Use the Database Optimizer agent:
 "Design the notification database schema for Supabase.
-Consider: notifications table (100M+), delivery tracking, 
+Consider: notifications table (100M+), delivery tracking,
 user preferences, batch scheduling"
-```
+
+```text
 
 #### Phase 3: Implementation
 
@@ -63,20 +69,22 @@ user preferences, batch scheduling"
 ```markdown
 Use the Frontend Developer agent:
 "Implement the notification UI in Nexus React component.
-Requirements: real-time WebSocket connection, 
-notification center, preferences modal, 
+Requirements: real-time WebSocket connection,
+notification center, preferences modal,
 accessibility (WCAG 2.1 AA)"
 
 Use the Code Reviewer agent (before merge):
 "Review this notification implementation against SPEC.
 Check: Does it meet all acceptance criteria?"
-```
+
+```text
 
 ---
 
 ## 2. Anclora SyncXML — Document Synchronization Service
 
 ### What SyncXML Does
+
 XML document synchronization, ingestion, and processing.
 
 ### Recommended Agents & Workflows
@@ -89,15 +97,16 @@ XML document synchronization, ingestion, and processing.
 Use the Product Manager agent:
 "Specify the Mineru document ingestion feature for SyncXML.
 Who: Legal teams, enterprise customers
-What: Upload PDFs/documents, extract structured data, 
+What: Upload PDFs/documents, extract structured data,
 validate against schema
 Requirements: 99.9% accuracy, <5 min processing for 100-page docs"
 
 Use the Backend Architect agent:
 "Design the document ingestion pipeline for SyncXML + Mineru.
-Consider: async queue (Bull), storage (Vercel Blob), 
+Consider: async queue (Bull), storage (Vercel Blob),
 webhook callbacks, error recovery"
-```
+
+```text
 
 #### Phase 2: API Design
 
@@ -106,15 +115,16 @@ webhook callbacks, error recovery"
 ```markdown
 Use the Backend Architect agent:
 "Design REST API for document uploads in SyncXML.
-Endpoints: POST /documents/upload, GET /documents/{id}/status, 
+Endpoints: POST /documents/upload, GET /documents/{id}/status,
 POST /documents/{id}/validate
 Include: webhook callbacks for status updates"
 
 Use the API Tester agent:
 "Create comprehensive tests for the document upload API.
-Test: valid PDF upload, invalid formats, 
+Test: valid PDF upload, invalid formats,
 concurrent uploads, webhook delivery"
-```
+
+```text
 
 #### Phase 3: Integration with Nexus
 
@@ -122,16 +132,18 @@ concurrent uploads, webhook delivery"
 
 ```markdown
 Use the Agents Orchestrator agent:
-"Design how SyncXML document ingestion integrates with Nexus 
-conversion flows. Include: API contracts, 
+"Design how SyncXML document ingestion integrates with Nexus
+conversion flows. Include: API contracts,
 error handling, retry logic, status notifications in Nexus UI"
-```
+
+```text
 
 ---
 
 ## 3. Anclora Content Generator — AI-Powered Content Creation
 
 ### What It Does
+
 Generate, optimize, and manage content at scale.
 
 ### Recommended Agents & Workflows
@@ -144,7 +156,8 @@ Generate, optimize, and manage content at scale.
 Use the Product Manager agent:
 "Define the multi-language content generation feature.
 Support: English, Spanish, French, German, Portuguese
-Requirements: 
+Requirements:
+
 - One click translation maintaining tone/brand voice
 - SEO optimization per language
 - Cultural adaptation (not just translation)
@@ -152,9 +165,10 @@ Requirements:
 
 Use the AI Engineer agent:
 "Design the multi-language LLM pipeline.
-Approach: Translation model + cultural adaptation + 
+Approach: Translation model + cultural adaptation +
 brand voice fine-tuning. Consider: cost, latency, quality"
-```
+
+```text
 
 #### Phase 2: Implementation
 
@@ -168,9 +182,10 @@ Ray for distributed processing, caching for common translations"
 
 Use the Frontend Developer agent:
 "Build the Content Generator UI for multi-language output.
-Show: side-by-side language comparison, 
+Show: side-by-side language comparison,
 approval workflow, one-click publish to blog/social"
-```
+
+```text
 
 #### Phase 3: SEO/AEO Optimization
 
@@ -179,15 +194,17 @@ approval workflow, one-click publish to blog/social"
 ```markdown
 Use the AEO Foundations Architect agent:
 "Optimize generated content for search engines and answer engines.
-Per language: keyword research, meta descriptions, 
+Per language: keyword research, meta descriptions,
 schema markup, content structure, readability score"
-```
+
+```text
 
 ---
 
 ## 4. Anclora Data Lab — Data Analytics & Experimentation
 
 ### What It Does
+
 Data analysis, dashboards, ML experimentation.
 
 ### Recommended Agents & Workflows
@@ -202,14 +219,15 @@ Use the Product Manager agent:
 Who: Product managers, data scientists
 What: Define experiments, track metrics, statistical significance,
 run automated analysis
-Requirements: <2min to set up new experiment, 
+Requirements: <2min to set up new experiment,
 95%+ statistical rigor"
 
 Use the Backend Architect agent:
 "Design the A/B testing system architecture.
-Consider: experiment queue, metric tracking, 
+Consider: experiment queue, metric tracking,
 statistical engine, realtime dashboards"
-```
+
+```text
 
 #### Phase 2: Data Pipeline
 
@@ -224,9 +242,10 @@ Latency requirement: <5min end-to-end"
 
 Use the Database Optimizer agent:
 "Design the metrics database schema.
-Consider: 1B+ events/day, efficient aggregation, 
+Consider: 1B+ events/day, efficient aggregation,
 time-series optimization"
-```
+
+```text
 
 #### Phase 3: QA & Performance
 
@@ -235,20 +254,22 @@ time-series optimization"
 ```markdown
 Use the API Tester agent:
 "Test the A/B testing API.
-Test scenarios: define experiment, track events, 
+Test scenarios: define experiment, track events,
 get results, handle errors"
 
 Use the Performance Benchmarker agent:
 "Benchmark the A/B testing system at scale.
-Simulate: 1M concurrent events, real-time aggregation, 
+Simulate: 1M concurrent events, real-time aggregation,
 dashboard query performance"
-```
+
+```text
 
 ---
 
 ## 5. Anclora EnergyScan — Energy Analysis
 
 ### What It Does
+
 Energy efficiency analysis and reporting for buildings.
 
 ### Recommended Agents & Workflows
@@ -262,7 +283,7 @@ Use the AI Engineer agent:
 "Specify the AI recommendation engine for EnergyScan.
 Inputs: building energy data, weather, occupancy patterns
 Output: Automated recommendations to reduce consumption 15-30%
-Requirements: Explainable AI (why this recommendation?), 
+Requirements: Explainable AI (why this recommendation?),
 validated against real buildings"
 
 Use the Backend Architect agent:
@@ -270,7 +291,8 @@ Use the Backend Architect agent:
 Source: IoT sensors, utility APIs
 Processing: ML model inference, anomaly detection
 Output: Dashboard + API for recommendations"
-```
+
+```text
 
 #### Phase 2: ML Model Development
 
@@ -287,7 +309,8 @@ Use the Data Engineer agent (if available):
 "Build the data pipeline for training the model.
 Source: 1000+ buildings, 2+ years energy data
 Output: Training dataset with ground truth (audit results)"
-```
+
+```text
 
 #### Phase 3: Validation
 
@@ -296,20 +319,22 @@ Output: Training dataset with ground truth (audit results)"
 ```markdown
 Use the API Tester agent:
 "Test the energy recommendation API.
-Scenarios: single building, batch recommendations, 
+Scenarios: single building, batch recommendations,
 error handling (sensor failures)"
 
 Use the Performance Benchmarker agent:
 "Benchmark recommendations at scale.
 Latency requirement: <2s per building
 Throughput: 1000 buildings/minute"
-```
+
+```text
 
 ---
 
 ## 6. Anclora Talent — Talent Management
 
 ### What It Does
+
 Talent acquisition, management, and development.
 
 ### Recommended Agents & Workflows
@@ -322,15 +347,16 @@ Talent acquisition, management, and development.
 Use the Product Manager agent:
 "Define AI-powered skill gap analysis for Talent.
 Who: HR managers, employees
-What: Compare employee skills vs. role requirements, 
+What: Compare employee skills vs. role requirements,
 suggest training, identify promotions
 Requirements: 90%+ accuracy in skill matching"
 
 Use the Backend Architect agent:
 "Design the skill gap analysis system.
-Components: skill taxonomy, employee assessment, 
+Components: skill taxonomy, employee assessment,
 role requirements, ML matching, recommendations"
-```
+
+```text
 
 #### Phase 2: ML Model
 
@@ -342,13 +368,15 @@ Use the AI Engineer agent:
 Approach: Natural language processing + semantic similarity
 Training data: job descriptions + employee profiles + historical promotions
 Validation: Does model predict actual career progressions?"
-```
+
+```text
 
 ---
 
 ## 7. Anclora Advisor AI — Financial Advisory
 
 ### What It Does
+
 Financial advice and portfolio management.
 
 ### Recommended Agents & Workflows
@@ -362,14 +390,15 @@ Use the Backend Architect agent:
 "Design the portfolio recommendation engine for Advisor.
 Inputs: client risk profile, goals, constraints
 Output: Diversified recommendations, compliance-checked
-Requirements: Regulatory compliance (FINRA/SEC), 
+Requirements: Regulatory compliance (FINRA/SEC),
 explainability (why this allocation?)"
 
 Use the Security Architect agent:
 "Threat-model the financial advisor system.
 Risks: unauthorized access, fraud, regulatory violation
 Mitigations: Encryption, audit trails, approval workflows"
-```
+
+```text
 
 #### Phase 2: Implementation
 
@@ -378,19 +407,21 @@ Mitigations: Encryption, audit trails, approval workflows"
 ```markdown
 Use the Backend Architect agent:
 "Design the portfolio calculation engine.
-Requirements: Real-time price updates, 
+Requirements: Real-time price updates,
 regulatory constraint checking, client preference weighting"
 
 Use the Code Reviewer agent:
-"Review the recommendation algorithm for 
+"Review the recommendation algorithm for
 correctness and regulatory compliance"
-```
+
+```text
 
 ---
 
 ## 8. Anclora Private Estates — Luxury Property Management
 
 ### What It Does
+
 Exclusive property listings and management.
 
 ### Recommended Agents & Workflows
@@ -402,7 +433,7 @@ Exclusive property listings and management.
 ```markdown
 Use the Frontend Developer agent:
 "Design the property matching interface for Private Estates.
-Requirements: Filter by luxury features (wine cellar, 
+Requirements: Filter by luxury features (wine cellar,
 smart home, etc), view 360° tours, schedule viewings,
 AI recommendations based on viewing history"
 
@@ -411,7 +442,8 @@ Use the Product Manager agent:
 Who: High-net-worth buyers
 Goal: Find perfect property in <10 interactions
 Metrics: match quality, conversion to viewing, sales"
-```
+
+```text
 
 #### Phase 2: Backend
 
@@ -420,20 +452,22 @@ Metrics: match quality, conversion to viewing, sales"
 ```markdown
 Use the Backend Architect agent:
 "Design the property data structure and search API.
-Support: complex filtering, recommendations, 
+Support: complex filtering, recommendations,
 viewing scheduling, client relationship tracking"
 
 Use the AI Engineer agent:
 "Design the personalized property matching model.
-Factors: past viewings, stated preferences, 
+Factors: past viewings, stated preferences,
 market trends, price sensitivity"
-```
+
+```text
 
 ---
 
 ## 9. Anclora Impulso — Growth Acceleration
 
 ### What It Does
+
 Growth hacking and momentum tracking.
 
 ### Recommended Agents & Workflows
@@ -445,14 +479,15 @@ Growth hacking and momentum tracking.
 ```markdown
 Use the Analytics Reporter agent (if available):
 "Design the growth metrics dashboard for Impulso.
-Metrics: MoM growth rate, conversion funnel, 
+Metrics: MoM growth rate, conversion funnel,
 CAC, LTV, churn, retention cohorts"
 
 Use the Backend Architect agent:
 "Design the analytics pipeline.
 Source: event tracking from all Anclora products
 Output: Real-time dashboards, ML forecasts, alerts"
-```
+
+```text
 
 #### Phase 2: Forecasting
 
@@ -463,7 +498,8 @@ Use the AI Engineer agent:
 "Design the growth forecasting model.
 Approach: Time-series + external factors (seasonality, marketing spend)
 Output: Growth scenarios (conservative, base, optimistic)"
-```
+
+```text
 
 ---
 
@@ -472,44 +508,51 @@ Output: Growth scenarios (conservative, base, optimistic)"
 ### Feature: Integrated Customer Analytics (Spans Multiple Products)
 
 ```markdown
+
 ## Using Agency Agents Across Products
 
 ### Specification Phase
-Use Product Manager: "Define integrated customer analytics across Nexus, 
+
+Use Product Manager: "Define integrated customer analytics across Nexus,
 SyncXML, Content Generator, Data Lab, Talent"
 
 ### Architecture Phase
-Use Agents Orchestrator: "Design how 5 services expose customer data 
-to central analytics. Include: API contracts, data consistency, 
+
+Use Agents Orchestrator: "Design how 5 services expose customer data
+to central analytics. Include: API contracts, data consistency,
 privacy (PII redaction)"
 
 ### Implementation Phase
+
 Use Backend Architect: "Design customer analytics APIs for each service"
 Use Code Reviewer: "Review for consistency across services"
 
 ### Deployment Phase
+
 Use Infrastructure Maintainer: "Plan coordinated deployment across 5 services"
 
 ### Monitoring Phase
-Use SRE (if available): "Monitor cross-service analytics pipeline 
+
+Use SRE (if available): "Monitor cross-service analytics pipeline
 for latency, data quality, completeness"
-```
+
+```text
 
 ---
 
-## Quick Reference: Which Agent for Which Product?
+## Quick Reference: Which Agent for Which Product
 
-| Product | Primary Agents | Use Case |
-| --- | --- | --- |
-| **Nexus** | Backend Architect, Code Reviewer | System design, coordination |
-| **SyncXML** | Backend Architect, Database Optimizer | Document processing, async queues |
-| **Content Generator** | AI Engineer, Frontend Developer | ML pipelines, content UX |
-| **Data Lab** | AI Engineer, Backend Architect | ML models, data pipelines |
-| **EnergyScan** | AI Engineer, Backend Architect | ML models, real-time processing |
-| **Talent** | Product Manager, AI Engineer | Feature design, skill matching |
-| **Advisor** | Backend Architect, Security Architect | Financial systems, compliance |
-| **Private Estates** | Frontend Developer, Backend Architect | UX, property data systems |
-| **Impulso** | Backend Architect, AI Engineer | Analytics, forecasting |
+ | Product | Primary Agents | Use Case |
+ | --- | --- | --- |
+ | **Nexus** | Backend Architect, Code Reviewer | System design, coordination |
+ | **SyncXML** | Backend Architect, Database Optimizer | Document processing, async queues |
+ | **Content Generator** | AI Engineer, Frontend Developer | ML pipelines, content UX |
+ | **Data Lab** | AI Engineer, Backend Architect | ML models, data pipelines |
+ | **EnergyScan** | AI Engineer, Backend Architect | ML models, real-time processing |
+ | **Talent** | Product Manager, AI Engineer | Feature design, skill matching |
+ | **Advisor** | Backend Architect, Security Architect | Financial systems, compliance |
+ | **Private Estates** | Frontend Developer, Backend Architect | UX, property data systems |
+ | **Impulso** | Backend Architect, AI Engineer | Analytics, forecasting |
 
 ---
 
@@ -518,32 +561,40 @@ for latency, data quality, completeness"
 Use this template for your product feature:
 
 ```markdown
+
 # Feature: [Feature Name]
 
 ## Phase 1: Specification
+
 Use the Product Manager agent:
 "[Clear feature description including who, what, requirements]"
 
 ## Phase 2: Architecture
+
 Use the [Architect Name] agent:
 "[Architecture questions specific to your stack]"
 
 ## Phase 3: Tasks
+
 Use the Workflow Architect agent:
 "[Break into testable tasks, 1-2 weeks each]"
 
 ## Phase 4: Implementation
+
 Use [Implementation Agents]:
 "[Code implementation prompts]"
 
 ## Phase 5: Quality
+
 Use the Code Reviewer agent:
 "[Review against spec and plan]"
 
 ## Phase 6: Deployment
+
 Use the [DevOps/SRE] agent:
 "[Deployment and monitoring setup]"
-```
+
+```text
 
 ---
 
@@ -561,25 +612,31 @@ Use the [DevOps/SRE] agent:
 ## Success Metrics
 
 Track for each product:
+
 - **Time to feature**: Spec → Production
 - **Code quality**: Test coverage, security issues
 - **Team velocity**: Features shipped per sprint
 - **Team satisfaction**: Ease of using agents
 
 Example:
+
 ```markdown
+
 ## Nexus Team Metrics (with agents)
 
 Before agents:
+
 - Feature time: 4 weeks
 - Test coverage: 60%
 - Velocity: 8 points/sprint
 
 After agents (3 months in):
+
 - Feature time: 2.5 weeks (-37%)
 - Test coverage: 92% (+32%)
 - Velocity: 14 points/sprint (+75%)
-```
+
+```text
 
 ---
 
@@ -587,6 +644,6 @@ After agents (3 months in):
 
 ---
 
-**Status**: Ready to use immediately  
-**Timeline**: Start with any feature  
+**Status**: Ready to use immediately
+**Timeline**: Start with any feature
 **Impact**: 2-5 weeks faster time-to-market per feature

@@ -16,7 +16,8 @@ Su objetivo es disponer de una agencia modular de agentes IA especializados que 
 - marketing técnico, SEO, AEO y GEO
 - operaciones y reporting
 
-La agencia no sustituye la decisión humana. Funciona como sistema de apoyo para acelerar análisis, implementación, revisión y documentación.
+La agencia no sustituye la decisión humana. Funciona como sistema de apoyo para acelerar análisis,
+implementación, revisión y documentación.
 
 ## 2. Herramientas operativas autorizadas
 
@@ -27,7 +28,8 @@ Anclora Group usa únicamente:
 
 Gemini CLI queda excluido del flujo operativo.
 
-Esto significa que no deben ejecutarse comandos de instalación, conversión ni uso de agentes para Gemini CLI.
+Esto significa que no deben ejecutarse comandos de instalación, conversión ni uso de agentes para
+Gemini CLI.
 
 ## 3. Herramientas no utilizadas
 
@@ -43,7 +45,8 @@ No forman parte de esta configuración operativa:
 - Antigravity
 - GitHub Copilot como runtime principal de agentes
 
-Pueden existir carpetas o documentación upstream sobre estas herramientas porque forman parte del repositorio original, pero Anclora no las usa como runtime operativo.
+Pueden existir carpetas o documentación upstream sobre estas herramientas porque forman parte del
+repositorio original, pero Anclora no las usa como runtime operativo.
 
 ## 4. Instalación activa
 
@@ -253,7 +256,8 @@ La memoria útil para Anclora debe estar en archivos versionados o sistemas expl
 - documentación de producto
 - MCP Memory, si se configura explícitamente
 
-Los agentes pueden tener secciones internas de "Memory" o "Learning & Memory", pero eso no garantiza memoria persistente real entre sesiones.
+Los agentes pueden tener secciones internas de "Memory" o "Learning & Memory", pero eso no
+garantiza memoria persistente real entre sesiones.
 
 ## 10. Reglas de mantenimiento
 

@@ -1,8 +1,9 @@
 # GitHub Workflow Standards for Anclora Ecosystem
 
-**Purpose**: Establish consistent Git branching strategy, CI/CD pipeline, and deployment automation across all Anclora repositories  
-**Status**: ACTIVE (2026-06-10)  
-**Applies To**: All application repos (products), not tooling repos  
+**Purpose**: Establish consistent Git branching strategy, CI/CD pipeline, and deployment automation
+across all Anclora repositories
+**Status**: ACTIVE (2026-06-10)
+**Applies To**: All application repos (products), not tooling repos
 **Maintainer**: Anclora Engineering Team
 
 ---
@@ -13,17 +14,20 @@
 
 Every application repository MUST have exactly these permanent branches:
 
-```
+```text
+
 main (production-ready)
 ├── production (deployed to production)
 ├── staging (pre-production validation)
 ├── development (integration branch for features)
 └── [temporary branches] (feature/*, fix/*, chore/*)
-```
+
+```text
 
 ### Branch Responsibilities
 
 #### `main` (Production Freeze)
+
 - **Purpose**: Historical record of production releases
 - **Deployment**: None (read-only reference)
 - **Merge policy**: Only from `production` via tagged release
@@ -31,6 +35,7 @@ main (production-ready)
 - **Protected**: Yes
 
 #### `production` (Production Environment)
+
 - **Purpose**: Live customer-facing code
 - **Deployment**: Auto-deploy on merge
 - **Source**: Merge from `staging` (git-flow/promote-staging-to-production.sh)
@@ -39,6 +44,7 @@ main (production-ready)
 - **Protected**: Yes, require status checks + branch protection
 
 #### `staging` (Pre-Production Testing)
+
 - **Purpose**: Final validation before production
 - **Deployment**: Auto-deploy to staging environment
 - **Source**: Merge from `development` (git-flow/promote-development-to-staging.sh)
@@ -47,6 +53,7 @@ main (production-ready)
 - **Protected**: Yes, require status checks
 
 #### `development` (Integration Branch)
+
 - **Purpose**: Merge point for all feature branches
 - **Deployment**: Auto-deploy to development/preview environment
 - **Source**: Merge from feature/*, fix/*, chore/* branches
@@ -55,7 +62,8 @@ main (production-ready)
 - **Protected**: Yes, require status checks + 1 approving review
 
 #### Temporary Branches (`feature/*`, `fix/*`, `chore/*`)
-- **Naming**: 
+
+- **Naming**:
   - `feature/user-authentication` (new capability)
   - `fix/login-timeout-bug` (bug fix)
   - `chore/update-dependencies` (maintenance)
@@ -73,13 +81,15 @@ main (production-ready)
 
 Use **conventional commits**:
 
-```
+```text
+
 <type>(<scope>): <subject>
 
 <body>
 
 <footer>
-```
+
+```text
 
 ### Types (Required)
 
@@ -94,7 +104,8 @@ Use **conventional commits**:
 
 ### Examples
 
-```
+```text
+
 feat(auth): add two-factor authentication
 
 Implement TOTP-based 2FA for user accounts.
@@ -102,16 +113,19 @@ Adds backup codes and recovery procedures.
 
 Closes #123
 Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>
-```
 
-```
+```text
+
+```text
+
 fix(api): resolve race condition in user creation
 
 Use database transaction to ensure atomicity.
 Added mutex lock for concurrent requests.
 
 Fixes #456
-```
+
+```text
 
 ### Branching Commits
 
@@ -126,6 +140,7 @@ Fixes #456
 ### PR Checklist (Mandatory)
 
 ```markdown
+
 - [ ] Branch name follows convention (feature/*, fix/*, chore/*)
 - [ ] Commits follow conventional commit format
 - [ ] Code passes linting and type checks
@@ -135,18 +150,21 @@ Fixes #456
 - [ ] Linked to issue(s) with "Closes #123"
 - [ ] No merge conflicts with target branch
 - [ ] Documentation updated (README, API docs, etc.)
-```
+
+```text
 
 ### PR Titles
 
 Use conventional format:
 
-```
+```text
+
 feat: add user dashboard
 fix: resolve timeout in payment processing
 docs: improve API documentation
 chore: upgrade dependencies to latest versions
-```
+
+```text
 
 ### Approval Requirements
 
@@ -157,6 +175,7 @@ chore: upgrade dependencies to latest versions
 ### Branch Protection Rules
 
 **All permanent branches** require:
+
 - ✅ At least N approving reviews
 - ✅ All status checks must pass
 - ✅ Require branches to be up to date before merge
@@ -170,11 +189,11 @@ chore: upgrade dependencies to latest versions
 
 ### Automatic Deployments
 
-| Branch | Environment | Trigger | Approval | Rollback |
-| --- | --- | --- | --- | --- |
-| `development` | Dev/Preview | PR merge | None | Auto-revert |
-| `staging` | Staging | PR merge | Manual review | Auto-revert |
-| `production` | Production | PR merge | Mandatory 3-approval | Manual via hotfix |
+ | Branch | Environment | Trigger | Approval | Rollback |
+ | --- | --- | --- | --- | --- |
+ | `development` | Dev/Preview | PR merge | None | Auto-revert |
+ | `staging` | Staging | PR merge | Manual review | Auto-revert |
+ | `production` | Production | PR merge | Mandatory 3-approval | Manual via hotfix |
 
 ### Deployment Process
 
@@ -190,18 +209,24 @@ chore: upgrade dependencies to latest versions
 ### Rollback Procedures
 
 **For staging/production**:
+
 ```bash
+
 # Revert last commit
+
 git revert <commit-hash>
 git push origin <branch>
 
 # Or reset to previous release tag
+
 git reset --hard <previous-tag>
 git push origin <branch> --force  # ONLY if no consumers
 
 # Or deploy previous release
+
 vercel --prod --yes  # Redeploy previous version
-```
+
+```text
 
 ---
 
@@ -222,36 +247,46 @@ Repos use different databases, deployment platforms, and configurations. Define 
 #### Supabase + Vercel Frontend + Render Backend (e.g., Nexus)
 
 ```yaml
+
 # GitHub Actions
+
 - name: Deploy Frontend
+
   with:
     project-id: anclora-nexus-frontend
     target: production
-    
+
 - name: Deploy Backend
+
   with:
     service-id: anclora-nexus-backend
     api-key: ${{ secrets.RENDER_API_KEY }}
 
 - name: Migrate Database
+
   with:
     supabase-project-id: ${{ secrets.SUPABASE_PROJECT_ID }}
     db-password: ${{ secrets.SUPABASE_DB_PASSWORD }}
-```
+
+```text
 
 #### Neon DB + Vercel Blob Storage + Vercel Hosting
 
 ```yaml
+
 - name: Deploy Application
+
   with:
     project-id: anclora-app
     database-url: ${{ secrets.DATABASE_URL }}
     blob-token: ${{ secrets.BLOB_STORE_TOKEN }}
-```
+
+```text
 
 ### Environment Promotion
 
 Secrets and env vars are **automatically promoted**:
+
 - `development` → uses dev DB/services
 - `staging` → uses staging DB/services (separate from prod)
 - `production` → uses prod DB/services (encrypted, restricted access)
@@ -266,13 +301,15 @@ Every PR to `development` must pass:
 
 ```yaml
 checks:
+
   - lint: 0 errors
   - type-check: TypeScript strict mode
   - test: >80% coverage, all tests pass
   - build: successful production build
   - security: no vulnerabilities (npm audit, SAST)
   - format: prettier check
-```
+
+```text
 
 ### Required Checks for `staging`
 
@@ -280,13 +317,15 @@ Additional checks before `staging`:
 
 ```yaml
 checks:
+
   - all development checks
   - e2e-tests: all scenarios pass
   - load-test: response time < 500ms @ 1000 RPS
   - soak-test: 24h stability test
   - security-audit: manual review pass
   - accessibility: WCAG 2.1 AA compliance
-```
+
+```text
 
 ### Required Checks for `production`
 
@@ -294,12 +333,14 @@ Final checks before `production`:
 
 ```yaml
 checks:
+
   - all staging checks
   - smoke-tests: critical paths in prod
   - canary-deployment: 5% traffic test
   - monitoring-alert: all alerting configured
   - incident-response: runbook prepared
-```
+
+```text
 
 ---
 
@@ -308,23 +349,31 @@ checks:
 ### Automatic Branch Cleanup
 
 **Policy**: Delete branches that are:
+
 - ✅ Merged to `development` AND
 - ✅ Older than 7 days AND
 - ✅ Not currently checked out
 
 **Implementation**:
+
 ```bash
+
 # Dry-run: preview stale branches
+
 cast clean
 
 # Apply deletion
+
 cast clean --apply
 
 # Weekly automated report
+
 scripts/cast-branch-groomer-schedule.sh
-```
+
+```text
 
 **Protected branches (never auto-delete)**:
+
 - `main`, `development`, `staging`, `production`
 - Any branch with open PRs
 - Any branch currently checked out in a worktree
@@ -334,13 +383,17 @@ scripts/cast-branch-groomer-schedule.sh
 For feature branches older than 7 days with no activity:
 
 ```bash
+
 # List candidates
+
 git branch --merged development | grep -v "^\*" | grep -v "main\|development\|staging\|production"
 
 # Delete
+
 git branch -d <branch-name>
 git push origin --delete <branch-name>
-```
+
+```text
 
 ---
 
@@ -348,34 +401,42 @@ git push origin --delete <branch-name>
 
 ### Version Numbering (Semantic)
 
-```
+```text
+
 v<YYYY>.<MM>.<DD>-<environment>-<patch>
 v2026.06.10-nexus-production
 v2026.06.10-nexus-production.1  (hotfix)
-```
+
+```text
 
 ### Release Process
 
 1. **Create Release PR** (development → staging)
+
    ```bash
    git checkout development
    git pull origin
    npm version minor  # or patch, major
    git push origin development
-   ```
+
+```text
 
 2. **Test in Staging** (manual QA)
 
 3. **Promote to Production**
+
    ```bash
    ./scripts/git-flow/promote-staging-to-production.sh
-   ```
+
+```text
 
 4. **Tag Release**
+
    ```bash
    git tag v2026.06.10-nexus-production
    git push origin v2026.06.10-nexus-production
-   ```
+
+```text
 
 5. **Deploy** (auto-trigger)
 
@@ -384,24 +445,33 @@ v2026.06.10-nexus-production.1  (hotfix)
 ### Hotfix Process (Production Bugs)
 
 ```bash
+
 # Create hotfix branch from production
+
 git checkout production
 git pull origin
 git checkout -b hotfix/critical-bug
 
 # Fix the issue
+
 git commit -m "fix: resolve critical production issue"
 
 # Merge back to production
+
 git push origin hotfix/critical-bug
+
 # Create PR, require 3 approvals
+
 # Merge to production → auto-deploy
+
 # Merge back to development to keep in sync
+
 git checkout development
 git pull origin
 git merge production
 git push origin development
-```
+
+```text
 
 ---
 
@@ -417,6 +487,7 @@ git push origin development
 ### Monitoring
 
 Track per-repo:
+
 - Lead time for changes (commit to production)
 - Deployment frequency
 - Change failure rate
@@ -438,15 +509,18 @@ When multiple repos depend on each other:
 4. **Notification**: Publish release notes to dependent teams
 
 Example:
-```
+
+```text
+
 anclora-nexus (depends on anclora-syncXML API)
 └── Requires anclora-syncXML >= v2026.06.10
     └── Triggers coordinated deployment
-```
+
+```text
 
 ---
 
-## 11. Checklist: Is Your Repo Ready?
+## 11. Checklist: Is Your Repo Ready
 
 ### Initial Setup (Before First Feature)
 
@@ -471,46 +545,52 @@ anclora-nexus (depends on anclora-syncXML API)
 
 ### Example: Nexus (Ideal Model)
 
-```
+```text
+
 Branches: main, production, staging, development
 Infra: Supabase + Vercel Frontend + Render Backend
 Flow: development (PR) → staging (promote) → production (deploy)
 Monitoring: Vercel Analytics + Render Logs + Supabase Insights
-```
+
+```text
 
 ### Example: SyncXML (To Be Standardized)
 
-```
+```text
+
 Current: main, production, staging, development + 4 feature branches
 Target: Same as Nexus structure, clean feature branches
 Action: Merge/close stale branches, standardize CI/CD
-```
+
+```text
 
 ### Example: Content Generator (Needs Structure)
 
-```
+```text
+
 Current: main + 8 feature branches, no staging/production
 Target: Add staging and production branches, define deployment
 Action: Create branch structure, implement CI/CD
-```
+
+```text
 
 ---
 
 ## 13. Questions & Troubleshooting
 
-**Q: Can I merge to `development` without PR?**  
+**Q: Can I merge to `development` without PR?**
 A: No. All merges require PR + review + status checks.
 
-**Q: What if I accidentally push to `production`?**  
+**Q: What if I accidentally push to `production`?**
 A: Branch protection prevents this. You must go through `staging`.
 
-**Q: How do I revert a bad production deployment?**  
+**Q: How do I revert a bad production deployment?**
 A: Use hotfix process: create hotfix branch, merge to production, deploy.
 
-**Q: How long do I keep feature branches?**  
+**Q: How long do I keep feature branches?**
 A: Delete after merge. If needed later, recreate from tag.
 
-**Q: Can I skip CI/CD checks for urgent fixes?**  
+**Q: Can I skip CI/CD checks for urgent fixes?**
 A: No. Use hotfix process instead (expedited, not skipped).
 
 ---
@@ -524,6 +604,6 @@ A: No. Use hotfix process instead (expedited, not skipped).
 
 ---
 
-**Maintained by**: Anclora Engineering Team  
-**Last reviewed**: 2026-06-10  
+**Maintained by**: Anclora Engineering Team
+**Last reviewed**: 2026-06-10
 **Next review**: 2026-07-10 (monthly)

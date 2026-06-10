@@ -57,31 +57,31 @@ You are **Analytics Reporter**, an expert data analyst and reporting specialist 
 ```sql
 -- Key Business Metrics Dashboard
 WITH monthly_metrics AS (
-  SELECT 
+  SELECT
     DATE_TRUNC('month', date) as month,
     SUM(revenue) as monthly_revenue,
     COUNT(DISTINCT customer_id) as active_customers,
     AVG(order_value) as avg_order_value,
     SUM(revenue) / COUNT(DISTINCT customer_id) as revenue_per_customer
-  FROM transactions 
+  FROM transactions
   WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH)
   GROUP BY DATE_TRUNC('month', date)
 ),
 growth_calculations AS (
   SELECT *,
     LAG(monthly_revenue, 1) OVER (ORDER BY month) as prev_month_revenue,
-    (monthly_revenue - LAG(monthly_revenue, 1) OVER (ORDER BY month)) / 
+    (monthly_revenue - LAG(monthly_revenue, 1) OVER (ORDER BY month)) /
      LAG(monthly_revenue, 1) OVER (ORDER BY month) * 100 as revenue_growth_rate
   FROM monthly_metrics
 )
-SELECT 
+SELECT
   month,
   monthly_revenue,
   active_customers,
   avg_order_value,
   revenue_per_customer,
   revenue_growth_rate,
-  CASE 
+  CASE
     WHEN revenue_growth_rate > 10 THEN 'High Growth'
     WHEN revenue_growth_rate > 0 THEN 'Positive Growth'
     ELSE 'Needs Attention'
@@ -111,18 +111,18 @@ def customer_segmentation_analysis(df):
         'revenue': 'sum'                                   # Monetary
     }).rename(columns={
         'date': 'recency',
-        'order_id': 'frequency', 
+        'order_id': 'frequency',
         'revenue': 'monetary'
     })
-    
+
     # Create RFM scores
     rfm['r_score'] = pd.qcut(rfm['recency'], 5, labels=[5,4,3,2,1])
     rfm['f_score'] = pd.qcut(rfm['frequency'].rank(method='first'), 5, labels=[1,2,3,4,5])
     rfm['m_score'] = pd.qcut(rfm['monetary'], 5, labels=[1,2,3,4,5])
-    
+
     # Customer segments
     rfm['rfm_score'] = rfm['r_score'].astype(str) + rfm['f_score'].astype(str) + rfm['m_score'].astype(str)
-    
+
     def segment_customers(row):
         if row['rfm_score'] in ['555', '554', '544', '545', '454', '455', '445']:
             return 'Champions'
@@ -138,9 +138,9 @@ def customer_segmentation_analysis(df):
             return 'Cannot Lose Them'
         else:
             return 'Others'
-    
+
     rfm['segment'] = rfm.apply(segment_customers, axis=1)
-    
+
     return rfm
 
 # Generate insights and recommendations
@@ -166,7 +166,7 @@ const marketingDashboard = {
   // Multi-touch attribution model
   attributionAnalysis: `
     WITH customer_touchpoints AS (
-      SELECT 
+      SELECT
         customer_id,
         channel,
         campaign,
@@ -181,7 +181,7 @@ const marketingDashboard = {
     ),
     attribution_weights AS (
       SELECT *,
-        CASE 
+        CASE
           WHEN touch_sequence = 1 AND total_touches = 1 THEN 1.0  -- Single touch
           WHEN touch_sequence = 1 THEN 0.4                       -- First touch
           WHEN touch_sequence = total_touches THEN 0.4           -- Last touch
@@ -189,7 +189,7 @@ const marketingDashboard = {
         END as attribution_weight
       FROM customer_touchpoints
     )
-    SELECT 
+    SELECT
       channel,
       campaign,
       SUM(revenue * attribution_weight) as attributed_revenue,
@@ -199,10 +199,10 @@ const marketingDashboard = {
     GROUP BY channel, campaign
     ORDER BY attributed_revenue DESC;
   `,
-  
+
   // Campaign ROI calculation
   campaignROI: `
-    SELECT 
+    SELECT
       campaign_name,
       SUM(spend) as total_spend,
       SUM(attributed_revenue) as total_revenue,

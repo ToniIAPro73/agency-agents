@@ -1,7 +1,7 @@
 # Agent Changelog — Version History & Changes
 
-**Tracking**: Agent personality changes, improvements, deprecations, and breaking changes  
-**Last Updated**: 2026-06-10  
+**Tracking**: Agent personality changes, improvements, deprecations, and breaking changes
+**Last Updated**: 2026-06-10
 **For**: Teams that depend on stable agent behavior
 
 ---
@@ -9,6 +9,7 @@
 ## Overview
 
 This changelog documents changes to agent behavior, personality, and capabilities. It helps teams:
+
 - 🔔 Track improvements and new features in agents
 - ⚠️ Be notified of breaking changes
 - 📦 Plan migrations when agent behavior changes
@@ -21,13 +22,15 @@ This changelog documents changes to agent behavior, personality, and capabilitie
 ### Entry Structure
 
 ```markdown
+
 ## [Date]
 
 ### [Agent Name] — [Status: NEW | ENHANCED | DEPRECATED | BREAKING CHANGE | FIXED]
 
 **Summary**: One-line description of the change
 
-**Details**: 
+**Details**:
+
 - What changed
 - Why it changed
 - Impact on existing workflows
@@ -35,7 +38,8 @@ This changelog documents changes to agent behavior, personality, and capabilitie
 **Migration** (if breaking): How to adapt existing code/prompts
 
 **Related agents**: Other agents affected by this change (if any)
-```
+
+```text
 
 ### Status Levels
 
@@ -55,6 +59,7 @@ This changelog documents changes to agent behavior, personality, and capabilitie
 **Summary**: Complete 65-agent library integrated into Anclora with documentation and validation
 
 **Details**:
+
 - 65 specialized agents across 16 categories
 - Full Anclora-specific documentation suite
 - GitHub Actions validation workflow
@@ -62,10 +67,12 @@ This changelog documents changes to agent behavior, personality, and capabilitie
 - Workspace integration complete
 
 **Installation**:
+
 ```bash
 ./scripts/install.sh --tool claude-code --agents-file anclora-agents.txt
 ./scripts/install.sh --tool codex --agents-file anclora-agents.txt
-```
+
+```text
 
 **Related docs**: README_ANCLORA.md, INTEGRATION_GUIDE.md, VALIDATION.md
 
@@ -78,15 +85,19 @@ This changelog documents changes to agent behavior, personality, and capabilitie
 **Summary**: [One line]
 
 **Details**:
+
 - [What changed]
 - [Why]
 - [Impact]
 
 **Migration** (if applicable):
-```
+
+```text
+
 Old prompt: "..."
 New prompt: "..."
-```
+
+```text
 
 **Related agents**: [List other agents affected]
 
@@ -107,6 +118,7 @@ None currently. All 65 agents are active and recommended for use.
 ### Deprecation Process
 
 When an agent reaches end-of-life:
+
 1. Agent marked as DEPRECATED in this changelog (3-month notice)
 2. Recommended alternative agent listed
 3. Migration guide provided
@@ -118,21 +130,25 @@ When an agent reaches end-of-life:
 ## Frequently Changed Agents
 
 ### Code Reviewer
+
 - **Change frequency**: Monthly (improvements to security checks, test coverage detection)
 - **Last updated**: 2026-06-10 (added accessibility audits)
 - **Breaking**: No recent breaking changes
 
 ### Backend Architect
+
 - **Change frequency**: Quarterly (new framework versions, cloud service updates)
 - **Last updated**: 2026-06-10 (initial Anclora integration)
 - **Watching**: gRPC/REST/GraphQL guidance (may change as standards evolve)
 
 ### Frontend Developer
+
 - **Change frequency**: Quarterly (React, Vue, Angular updates)
 - **Last updated**: 2026-06-10 (React 19 patterns)
 - **Watching**: Core Web Vitals guidance (may update as metrics evolve)
 
 ### Security Architect
+
 - **Change frequency**: As-needed (new vulnerabilities, compliance updates)
 - **Last updated**: 2026-06-10 (initial Anclora integration)
 - **Watching**: OWASP Top 10 updates, supply chain attack patterns
@@ -142,10 +158,12 @@ When an agent reaches end-of-life:
 ## How to Stay Updated
 
 ### Automatic
+
 1. **GitHub Notifications**: Watch this repo for CHANGELOG updates
 2. **CI/CD Pipelines**: GitHub Actions validate agent compatibility
 
 ### Manual
+
 1. **Monthly Review**: Check this file for changes
 2. **Agent Performance Baselines**: Review any baseline changes that indicate agent evolution
 
@@ -171,9 +189,9 @@ Example issue title: `Code Reviewer agent missing SQL injection warnings on para
 
 ## Version History Reference
 
-| Version | Date | Key Changes | Status |
-| --- | --- | --- | --- |
-| 1.0 | 2026-06-10 | Initial Anclora integration, 65 agents, full documentation | ✅ Current |
+ | Version | Date | Key Changes | Status |
+ | --- | --- | --- | --- |
+ | 1.0 | 2026-06-10 | Initial Anclora integration, 65 agents, full documentation | ✅ Current |
 
 ---
 
@@ -202,10 +220,11 @@ For quick reference, agents are organized by:
 
 ---
 
-## Questions?
+## Questions
 
 - **"Will this agent change?"** → Check this changelog monthly
-- **"How do I know if I'm using an outdated agent?"** → Compare agent output to AGENT_PERFORMANCE_BASELINES.md
+- **"How do I know if I'm using an outdated agent?"** → Compare agent output to
+AGENT_PERFORMANCE_BASELINES.md
 - **"Where do I report an issue?"** → See "Reporting Agent Issues" section above
 - **"How are agent changes decided?"** → Via MEMANTO decisions and team consensus
 
@@ -225,6 +244,6 @@ Use this when a breaking change is announced:
 
 ---
 
-**Maintained by**: Anclora Engineering Team  
-**Report issues to**: See GitHub Issues or contact team lead  
+**Maintained by**: Anclora Engineering Team
+**Report issues to**: See GitHub Issues or contact team lead
 **Next scheduled review**: 2026-07-10

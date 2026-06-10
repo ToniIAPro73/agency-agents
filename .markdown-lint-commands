@@ -1,0 +1,28 @@
+# Quick Markdown Lint Verification Commands
+
+Run these BEFORE committing markdown files:
+
+## 1. Check blanks around code blocks (MD031)
+grep -n "^[^ ]" *.md | grep -B1 "\`\`\`"
+
+## 2. Check line length (>100 chars)
+awk 'length > 100 && !/^https/ && !/^|/ {print NR": " length($0) " chars"}' *.md
+
+## 3. Check for invalid file:// links
+grep -n 'file://' *.md
+
+## 4. Check heading hierarchy
+grep '^#' *.md | head -10
+
+## 5. Check unclosed code blocks
+awk '/^```/{count++} END {if(count%2) print "UNCLOSED CODE BLOCKS FOUND"}' *.md
+
+## Auto-fix script
+bash scripts/fix-markdown-warnings.sh
+
+## Full check (all 5 checks):
+echo "=== MD031 Check ===" && grep -n "^[^ ]" *.md | grep -B1 "\`\`\`" && echo "✓ PASS" || echo "❌ FAIL"
+echo "=== Line Length Check ===" && awk 'length > 100 && !/^https/ && !/^|/ {print NR": " length}' *.md && echo "❌ FAIL" || echo "✓ PASS"
+echo "=== file:// Check ===" && grep -n 'file://' *.md && echo "❌ FAIL" || echo "✓ PASS"
+
+See MARKDOWN_CONVENTIONS.md for detailed rules and IDE setup.

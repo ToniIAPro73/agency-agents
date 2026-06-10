@@ -16,7 +16,8 @@ La finalidad es disponer de una agencia de agentes IA especializada para apoyar 
 - marketing técnico, SEO, AEO y GEO
 - operaciones y reporting
 
-La agencia ayuda a acelerar análisis, implementación, revisión y documentación, pero no sustituye la validación humana.
+La agencia ayuda a acelerar análisis, implementación, revisión y documentación, pero no sustituye
+la validación humana.
 
 ## Herramientas autorizadas
 
@@ -41,7 +42,8 @@ No usar para esta configuración:
 - Antigravity
 - GitHub Copilot como runtime principal de agentes
 
-Pueden existir referencias upstream a estas herramientas porque forman parte del repositorio original, pero no son parte del flujo operativo Anclora.
+Pueden existir referencias upstream a estas herramientas porque forman parte del repositorio
+original, pero no son parte del flujo operativo Anclora.
 
 ## Comandos permitidos
 
@@ -69,7 +71,8 @@ No ejecutar:
     ./scripts/convert.sh --tool gemini-cli
     ./scripts/install.sh --tool gemini-cli
 
-Motivo: esos comandos pueden instalar o regenerar agentes para herramientas fuera del flujo operativo de Anclora.
+Motivo: esos comandos pueden instalar o regenerar agentes para herramientas fuera del flujo
+operativo de Anclora.
 
 ## Archivos Anclora principales
 
@@ -93,9 +96,11 @@ La memoria común de Anclora debe mantenerse en archivos versionados, especialme
 - `anclora-agents.txt`
 - `anclora-agents.requested.txt`
 
-Cualquier agente IA que trabaje sobre este repositorio debe tratar estos archivos como fuente de contexto operativo antes de proponer o ejecutar cambios.
+Cualquier agente IA que trabaje sobre este repositorio debe tratar estos archivos como fuente de
+contexto operativo antes de proponer o ejecutar cambios.
 
-Las secciones internas de “Memory”, “Learning & Memory” o equivalentes dentro de agentes originales son guías de comportamiento, no garantía de memoria persistente real entre sesiones.
+Las secciones internas de “Memory”, “Learning & Memory” o equivalentes dentro de agentes originales
+son guías de comportamiento, no garantía de memoria persistente real entre sesiones.
 
 ## Criterio de modificación
 
@@ -115,7 +120,8 @@ No borrar carpetas, integraciones o documentación upstream salvo instrucción e
 
 ## Regla de trabajo con Git
 
-No trabajar directamente en `main` para cambios nuevos, salvo documentación menor y controlada ya validada por el usuario.
+No trabajar directamente en `main` para cambios nuevos, salvo documentación menor y controlada ya
+validada por el usuario.
 
 Para cambios nuevos, usar ramas con nombres claros:
 
@@ -176,7 +182,8 @@ Además, debe respetar estas reglas:
 
 11. Mantener el flujo operativo limitado a Claude Code y Codex.
 
-12. No asumir que Gemini CLI forma parte de la instalación de Anclora aunque exista documentación upstream relacionada.
+12. No asumir que Gemini CLI forma parte de la instalación de Anclora aunque exista documentación
+upstream relacionada.
 
 ## Uso recomendado por tipo de tarea
 
@@ -344,7 +351,8 @@ Productos y líneas que puede apoyar:
 - Anclora Talent.
 - Anclora Impulso.
 
-Anclora Talent y Anclora Impulso pueden tener relación de marca con Anclora Group, pero no deben asumirse como parte directa del mismo ecosistema técnico salvo que el usuario lo indique.
+Anclora Talent y Anclora Impulso pueden tener relación de marca con Anclora Group, pero no deben
+asumirse como parte directa del mismo ecosistema técnico salvo que el usuario lo indique.
 
 ## Modelo operativo
 
@@ -451,4 +459,5 @@ La configuración es válida si:
 
 ## Regla final
 
-Ante duda, el agente debe detenerse, explicar el riesgo y pedir confirmación antes de ejecutar cambios.
+Ante duda, el agente debe detenerse, explicar el riesgo y pedir confirmación antes de ejecutar
+cambios.

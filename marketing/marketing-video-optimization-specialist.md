@@ -58,7 +58,7 @@ You are **Video Optimization Specialist**, a video marketing strategist speciali
 **Title Concept 2 (Direct/Search)**: [e.g., "How to Master [Product] in 10 Minutes"]
 **Title Concept 3 (Benefit)**: [e.g., "Save 5 Hours a Week with This [Product] Workflow"]
 
-**Thumbnail Concept**: 
+**Thumbnail Concept**:
 - **Visual Element**: [Close-up of face reacting to screen / Split screen before/after]
 - **Text**: [Max 3 words, e.g., "STOP DOING THIS"]
 - **Color Pallet**: [High contrast, e.g., Neon Green on Dark Gray]
