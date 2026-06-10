@@ -7,7 +7,7 @@
 
 ## 🎯 Empieza aquí (Todos deben leer esto)
 
-### **[RESUMEN_EJECUTIVO_REDUCCION_TOKENS.md](RESUMEN_EJECUTIVO_REDUCCION_TOKENS.md)** (5 min)
+### **[EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md)** (5 min)
 
 **Para**: Decisores, líderes de equipo, anyone new to the problem
 **Qué aprenderás**:
@@ -28,7 +28,7 @@
 
 ## 🚀 Implementa tu primer reducción (30 minutos)
 
-### **[QUICK_START_TOKEN_REDUCTION.md](QUICK_START_TOKEN_REDUCTION.md)** (30 min)
+### **[QUICK_START.md](QUICK_START.md)** (30 min)
 
 **Para**: Ingenieros que van a implementar
 **Qué aprenderás**:
@@ -46,7 +46,7 @@
 
 ## 📚 Aprende la estrategia completa (Deep dive)
 
-### **[ANCLORA_TOKEN_REDUCTION_STRATEGY.md](ANCLORA_TOKEN_REDUCTION_STRATEGY.md)** (30-40 min)
+### **[STRATEGY.md](STRATEGY.md)** (30-40 min)
 
 **Para**: Arquitectos, optimización deep-dive, decisiones técnicas
 **8 estrategias detalladas**:
@@ -83,11 +83,11 @@
 
 ### Por pregunta
 
-- **¿Cuánto ahorro?** → RESUMEN_EJECUTIVO, sección "Impacto Financiero"
-- **¿Cómo empiezo?** → QUICK_START_TOKEN_REDUCTION
-- **¿Por qué Hermes/Odysseus?** → ANCLORA_TOKEN_REDUCTION, estrategias 1-2
-- **¿Cómo monitoreo?** → ANCLORA_TOKEN_REDUCTION, sección "Measurement & Monitoring"
-- **¿Qué riesgos?** → RESUMEN_EJECUTIVO, sección "Riesgos & Mitigación"
+- **¿Cuánto ahorro?** → EXECUTIVE_SUMMARY, sección "Impacto Financiero"
+- **¿Cómo empiezo?** → QUICK_START.md
+- **¿Por qué Hermes/Odysseus?** → STRATEGY.md, estrategias 1-2
+- **¿Cómo monitoreo?** → STRATEGY.md, sección "Measurement & Monitoring"
+- **¿Qué riesgos?** → EXECUTIVE_SUMMARY, sección "Riesgos & Mitigación"
 
 ### Por tiempo disponible
 
@@ -247,12 +247,12 @@ Tarde:
 
 ### Pregunta de... → Revisa documento
 
-- **Implementación Step 1-4**: QUICK_START_TOKEN_REDUCTION
-- **Arquitectura Hermes**: ANCLORA_TOKEN_REDUCTION, sección "Strategy 1"
-- **Arquitectura Odysseus**: ANCLORA_TOKEN_REDUCTION, sección "Strategy 2"
-- **Cálculos de tokens**: ANCLORA_TOKEN_REDUCTION, "Cost Calculator" en cada estrategia
-- **Monitoring setup**: ANCLORA_TOKEN_REDUCTION, "Measurement & Monitoring"
-- **Decisión opción A/B/C**: RESUMEN_EJECUTIVO, "Prioridades: ¿Por Dónde Empiezo?"
+- **Implementación Step 1-4**: QUICK_START.md
+- **Arquitectura Hermes**: STRATEGY.md, sección "Strategy 1"
+- **Arquitectura Odysseus**: STRATEGY.md, sección "Strategy 2"
+- **Cálculos de tokens**: STRATEGY.md, "Cost Calculator" en cada estrategia
+- **Monitoring setup**: STRATEGY.md, "Measurement & Monitoring"
+- **Decisión opción A/B/C**: EXECUTIVE_SUMMARY, "Prioridades: ¿Por Dónde Empiezo?"
 
 ### Escalation
 

@@ -398,7 +398,7 @@ print(df.groupby('agent').agg({
 
 ### Week 2: Medium Effort (Additional 15-20% savings)
 
-- [ ] Integrate Hermes as orchestrator (see ANCLORA_TOKEN_REDUCTION_STRATEGY.md)
+- [ ] Integrate Hermes as orchestrator (see STRATEGY.md)
 - [ ] Build batch processor for similar tasks
 - [ ] Consolidate MCP tool definitions
 
@@ -511,7 +511,7 @@ Savings: $21/year (46% reduction) ✅
 
 ## Questions
 
-See: `ANCLORA_TOKEN_REDUCTION_STRATEGY.md` for detailed explanation of all 8 strategies.
+See: `STRATEGY.md` for detailed explanation of all 8 strategies.
 
 **Status**: Ready to implement NOW (no blocking dependencies)
 **Expected completion**: 30 minutes
