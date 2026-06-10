@@ -40,6 +40,33 @@ Agent versioning, performance metrics, and cost estimation.
 - **[Performance Baselines](agents/AGENT_PERFORMANCE_BASELINES.md)** — Benchmark data
 - **[Cost Estimation](agents/AGENT_COST_ESTIMATION.md)** — Token usage modeling
 
+### [Implementation Guides](guides/)
+
+Step-by-step guides for setup, integration, and orchestration.
+
+- **[Quick Start](guides/QUICK_START.md)** — Get started in 15 minutes
+- **[Integration Guide](guides/INTEGRATION_GUIDE.md)** — Connect to your systems
+- **[SDD Integration](guides/SDD_INTEGRATION_GUIDE.md)** — SDD-specific setup
+- **[Workflow Orchestration](guides/WORKFLOW_ORCHESTRATION_GUIDE.md)** — Design agent workflows
+
+### [Development Standards](standards/)
+
+Contribution guidelines, security policies, and best practices.
+
+- **[Contributing](standards/CONTRIBUTING.md)** — How to contribute
+- **[Security](standards/SECURITY.md)** — Vulnerability reporting
+- **[Validation](standards/VALIDATION.md)** — Testing standards
+- **[GitHub Workflows](standards/GITHUB_WORKFLOW_STANDARDS.md)** — GitHub best practices
+- **[GitHub Actions](standards/GITHUB_ACTIONS_TEMPLATES.md)** — CI/CD templates
+
+### [Reference](reference/)
+
+Repository structure, examples, and optimization guides.
+
+- **[Workspace Structure](reference/WORKSPACE_STRUCTURE.md)** — Code organization
+- **[Product Examples](reference/PRODUCT_SPECIFIC_EXAMPLES.md)** — Implementation examples
+- **[SEO/AEO Optimization](reference/SEO_AEO_OPTIMIZATION.md)** — Search optimization
+
 ### [Markdown Standards](markdown/)
 
 Style guides and quality standards for documentation.
@@ -56,13 +83,13 @@ Style guides and quality standards for documentation.
 
 ## 🚀 Quick Navigation by Role
 
- | Role | Start Here | Time |
- | ------- | ------- | ------- |
- | **CTO / Engineering Lead** | [Token Reduction Executive Summary](token-reduction/EXECUTIVE_SUMMARY.md) | 5 min |
- | **Implementation Engineer** | [Quick Start Token Reduction](token-reduction/QUICK_START.md) | 30 min |
- | **Software Architect** | [Complete Token Reduction Strategy](token-reduction/STRATEGY.md) | 40 min |
- | **DevOps / Infrastructure** | [Strategy § Monitoring](token-reduction/STRATEGY.md#measurement--monitoring) | 20 min |
- | **Documentation Maintainer** | [Markdown Conventions](markdown/CONVENTIONS.md) | 15 min |
+| Role                         | Start Here                                                                   | Time   |
+| ---------------------------- | ---------------------------------------------------------------------------- | ------ |
+| **CTO / Engineering Lead**   | [Token Reduction Executive Summary](token-reduction/EXECUTIVE_SUMMARY.md)    | 5 min  |
+| **Implementation Engineer**  | [Quick Start Token Reduction](token-reduction/QUICK_START.md)                | 30 min |
+| **Software Architect**       | [Complete Token Reduction Strategy](token-reduction/STRATEGY.md)             | 40 min |
+| **DevOps / Infrastructure**  | [Strategy § Monitoring](token-reduction/STRATEGY.md#measurement--monitoring) | 20 min |
+| **Documentation Maintainer** | [Markdown Conventions](markdown/CONVENTIONS.md)                              | 15 min |
 
 ---
 
@@ -93,12 +120,51 @@ Style guides and quality standards for documentation.
 ## 🎯 Index by Document
 
 **Token Reduction** (4 documents)
+
 - `token-reduction/README.md` — Navigation hub with detailed routing
 - `token-reduction/EXECUTIVE_SUMMARY.md` — Business case + financial modeling
 - `token-reduction/QUICK_START.md` — 4 practical steps (caching, budgets, triage, logging)
 - `token-reduction/STRATEGY.md` — 8 deep-dive strategies with code samples
 
-**Markdown** (2 documents)
+**Implementation Guides** (4 documents)
+
+- `guides/QUICK_START.md` — Get started in 15 minutes
+- `guides/INTEGRATION_GUIDE.md` — System integration and setup
+- `guides/SDD_INTEGRATION_GUIDE.md` — SDD-specific implementation
+- `guides/WORKFLOW_ORCHESTRATION_GUIDE.md` — Agent workflow design
+
+**Development Standards** (5 documents)
+
+- `standards/CONTRIBUTING.md` — Contribution guidelines
+- `standards/SECURITY.md` — Security policy and incident reporting
+- `standards/VALIDATION.md` — Testing and validation standards
+- `standards/GITHUB_WORKFLOW_STANDARDS.md` — GitHub best practices
+- `standards/GITHUB_ACTIONS_TEMPLATES.md` — CI/CD automation patterns
+
+**Reference** (3 documents)
+
+- `reference/WORKSPACE_STRUCTURE.md` — Repository and code organization
+- `reference/PRODUCT_SPECIFIC_EXAMPLES.md` — Real-world implementation examples
+- `reference/SEO_AEO_OPTIMIZATION.md` — Search and AI visibility strategies
+
+**Anclora Integration** (5 documents)
+
+- `anclora/ANCLORA_README.md` — Integration overview
+- `anclora/ANCLORA_ASSESSMENT.md` — Current state analysis
+- `anclora/ANCLORA_AGENCY_OPERATING_MODEL.md` — Operating procedures
+- `anclora/ANCLORA_AGENT_MEMORY.md` — Memory system design
+- `anclora/README_ANCLORA.md` — Additional integration details
+
+**Agent Management** (5 documents)
+
+- `agents/AGENTS.md` — Complete agent catalog
+- `agents/AGENT_CHANGELOG.md` — Version history and updates
+- `agents/AGENT_VERSIONING_STRATEGY.md` — Versioning approach
+- `agents/AGENT_PERFORMANCE_BASELINES.md` — Performance metrics
+- `agents/AGENT_COST_ESTIMATION.md` — Token usage and cost modeling
+
+**Markdown Standards** (2 documents)
+
 - `markdown/CONVENTIONS.md` — Complete style guide (golden rules, examples, checklist)
 - `markdown/CLEANUP_REPORT.md` — How we fixed 275+ linting warnings
 
