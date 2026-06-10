@@ -102,6 +102,19 @@ See the [Multi-Tool Integrations](#-multi-tool-integrations) section below for f
 
 ---
 
+## 📚 Implementation & Scaling Documentation
+
+**Building with The Agency at scale?** See [**docs/README.md**](docs/README.md) for:
+
+- 📊 **Token Reduction Strategy** — Reduce token usage by 55-65% with 8 proven strategies
+- ✅ **Markdown Standards** — Professional documentation conventions and style guide
+- 🚀 **Quick Starts** — 30-min guides for implementation engineers
+- 💰 **ROI Calculations** — Financial impact modeling for teams of any size
+
+[→ View Implementation Docs](docs/README.md)
+
+---
+
 ## 🎨 The Agency Roster
 
 ### 💻 Engineering Division
