@@ -50,6 +50,13 @@ This repository contains 65 specialized AI agents optimized for Claude Code and 
 - Regression detection process
 - Examples of excellent agent responses
 
+### Understand Spec-Driven Development (SDD)
+→ Read **[SDD_INTEGRATION_GUIDE.md](SDD_INTEGRATION_GUIDE.md)**
+- How SDD integrates with GitHub workflows and agents
+- SPEC → PLAN → TASKS → Implementation flow
+- Using agents to enforce SDD at each phase
+- Reference: [SDD NotebookLM](https://notebooklm.google.com/notebook/94462119-4635-4039-827d-e46042428871)
+
 ### Track Agent Changes & Breaking News
 → Read **[AGENT_CHANGELOG.md](AGENT_CHANGELOG.md)**
 - Version history
@@ -102,7 +109,14 @@ QUICK_START.md ────────────────→ [Use an agent
     │
     ├─→ AGENTS.md ────────────→ [Full catalog of 65 agents]
     │
+    ├─→ SDD_INTEGRATION_GUIDE.md → [Spec-Driven Development workflow]
+    │
     └─→ VALIDATION.md ────────→ [Verify your installation]
+
+WORKFLOWS & INFRASTRUCTURE
+    ├─→ GITHUB_WORKFLOW_STANDARDS.md ──→ [Branch strategy & CI/CD]
+    ├─→ GITHUB_ACTIONS_TEMPLATES.md ───→ [Reusable workflows]
+    └─→ WORKFLOW_ORCHESTRATION_GUIDE.md → [Agent automation for workflows]
 
 DEEP DIVES
     ├─→ AGENT_PERFORMANCE_BASELINES.md ─→ [Quality standards]
@@ -145,8 +159,12 @@ DEEP DIVES
 1. **[QUICK_START.md](QUICK_START.md)** — Get up and running in 5 minutes
 2. **[README_ANCLORA.md](README_ANCLORA.md)** — Understand the setup and Anclora's choices
 3. **[AGENTS.md](AGENTS.md)** — Know what agents are available
-4. **[INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md)** — Use agents effectively in your workflow
-5. **[AGENT_PERFORMANCE_BASELINES.md](AGENT_PERFORMANCE_BASELINES.md)** — Know what to expect from agents
+4. **[SDD_INTEGRATION_GUIDE.md](SDD_INTEGRATION_GUIDE.md)** — Understand Spec-Driven Development workflow
+5. **[GITHUB_WORKFLOW_STANDARDS.md](GITHUB_WORKFLOW_STANDARDS.md)** — Understand Git flow and branch strategy
+
+**Also bookmark**:
+- **[AGENT_PERFORMANCE_BASELINES.md](AGENT_PERFORMANCE_BASELINES.md)** — Know what to expect from agents
+- **[INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md)** — Use agents effectively in your workflow
 
 ---
 
