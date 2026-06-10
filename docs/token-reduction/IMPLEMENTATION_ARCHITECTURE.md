@@ -8,7 +8,7 @@
 
 Single entry point that intelligently routes to optimal model based on task complexity and budget:
 
-```
+```text
 User Request
     ↓
 invoke_agent(task) [WRAPPER] ← All intelligence here
@@ -29,7 +29,7 @@ invoke_agent(task) [WRAPPER] ← All intelligence here
 
 ## 📁 File Structure
 
-```
+```text
 anclora-agents/
 ├── agents/
 │   ├── core/
@@ -273,13 +273,15 @@ print(f"Tokens: {response['tokens_used']}")
 ```
 
 **What happens internally**:
+
 1. Task analyzed: ~200 words = "medium" complexity
-2. Model selected: OpenRouter's mistral-7b-instruct ($0.00015/token) 
+2. Model selected: OpenRouter's mistral-7b-instruct ($0.00015/token)
 3. Called via OpenRouter provider
 4. Response logged with actual cost
 5. Budget deducted from remaining allocation
 
 If budget was tight:
+
 - Simple → Ollama local (free)
 - Medium → OpenRouter (cheap)
 - Complex → GPT-4 / Claude (expensive)
@@ -290,7 +292,8 @@ If budget was tight:
 ## 📊 Cost Flow (Per Invocation)
 
 Example 1: Simple task → Local model (free)
-```
+
+```text
 invoke_agent("Classify this email as spam or not spam")
     ├─ Complexity: simple (short, classification task)
     ├─ Provider: Ollama (locally running)
@@ -301,7 +304,8 @@ invoke_agent("Classify this email as spam or not spam")
 ```
 
 Example 2: Medium task → Cheap API (low cost)
-```
+
+```text
 invoke_agent("Review this Python function for bugs")
     ├─ Complexity: medium (code review, ~300 words)
     ├─ Budget check: "Do we have $0.05?"
@@ -312,7 +316,8 @@ invoke_agent("Review this Python function for bugs")
 ```
 
 Example 3: Complex task → Powerful API (necessary cost)
-```
+
+```text
 invoke_agent("Design a microservices architecture for ecommerce")
     ├─ Complexity: complex (architecture design, 1000+ words)
     ├─ Budget check: "Do we have $1.50?"
@@ -323,6 +328,7 @@ invoke_agent("Design a microservices architecture for ecommerce")
 ```
 
 **Total monthly cost comparison**:
+
 - Before: All complex tasks → Claude/GPT = $500+/month
 - After: Simple (free) + Medium (cheap) + Complex (when needed) = $50-100/month
 - **ROI**: 80-90% cost reduction
@@ -378,6 +384,7 @@ def hermes_curate_content(topic: str, platform: str):
 ```
 
 **Cost example for Hermes content curation**:
+
 - Before: All via OpenAI = $0.50/article
 - After: Simple (free) + Medium (cheap) + Complex (only when needed) = $0.02-0.05/article
 - **Savings**: 90% cost reduction, same quality
@@ -387,6 +394,7 @@ def hermes_curate_content(topic: str, platform: str):
 ## 🚀 Deployment Steps
 
 ### Week 1: Build Wrapper & Providers
+
 1. Create `agents/core/invoke.py` (300 lines, multi-model)
 2. Create `agents/core/model_selector.py` (150 lines)
 3. Create provider adapters:
@@ -399,6 +407,7 @@ def hermes_curate_content(topic: str, platform: str):
 6. Create `config/provider-keys.env` for API keys
 
 ### Week 2: Test & Validate
+
 1. Unit tests for each provider
 2. Integration test: invoke same task across all providers
 3. Verify cost calculation is accurate
@@ -407,6 +416,7 @@ def hermes_curate_content(topic: str, platform: str):
 6. Load test with 100 concurrent requests
 
 ### Week 3: Rollout
+
 1. Update README to point to `invoke_agent()`
 2. Setup local Ollama with mistral-7b model
 3. Add OpenRouter + OpenAI credentials
@@ -419,17 +429,20 @@ def hermes_curate_content(topic: str, platform: str):
 ## 📈 Metrics to Track
 
 **Per invocation**:
+
 - `tokens_in`, `tokens_out`, `cache_hits`
 - Agent used, model chosen
 - Budget remaining
 
 **Daily**:
+
 - Total tokens consumed
 - Cache hit rate (cache_hits / total_input)
 - Budget utilization %
 - Cost per agent
 
 **Monthly**:
+
 - Actual savings vs. baseline
 - Most expensive agents
 - Budget vs. forecast
@@ -439,6 +452,7 @@ def hermes_curate_content(topic: str, platform: str):
 ## ⚠️ Edge Cases
 
 ### What if budget is exceeded?
+
 ```python
 if not budget.can_proceed(request):
     return {
@@ -451,6 +465,7 @@ if not budget.can_proceed(request):
 ```
 
 ### What if triage fails?
+
 ```python
 # Fallback to claude (safest model)
 if confidence < 0.7:
@@ -458,6 +473,7 @@ if confidence < 0.7:
 ```
 
 ### What if caching not supported?
+
 ```python
 # Graceful fallback for older models
 if model not in ["sonnet", "opus", "haiku"]:
