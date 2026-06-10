@@ -293,3 +293,136 @@ La configuración se considera válida si:
 - `README_ANCLORA.md` existe
 - este documento existe
 - no se ha modificado innecesariamente el repo base
+
+---
+
+## 12. Modelo de 4 planos del ecosistema
+
+El ecosistema Anclora opera en cuatro planos con responsabilidades bien definidas. Mezclarlos
+es la causa principal de spec split-brain, drift documental y coste de tokens innecesario.
+
+| Plano | Repos | Responde a la pregunta |
+| ----- | ----- | ---------------------- |
+| **Gobernanza canónica** | Bóveda-Anclora | ¿Qué está permitido? ¿Qué familia es esta app? ¿Qué contrato aplica? |
+| **Entrega** | Repo de producto + SDD artifacts del repo | ¿Qué construimos ahora? ¿Cuáles son los criterios de aceptación? |
+| **Orquestación** | OpenSpec + agency-agents + Specboot | ¿Cómo organizamos el trabajo? ¿Qué rol de agente usar? |
+| **Inteligencia personal** | Odysseus + NotebookLM | ¿Qué hemos investigado? ¿Qué decisiones tomamos antes? |
+
+### Plano 1: Gobernanza canónica — Bóveda
+
+La Bóveda es la **autoridad máxima** del ecosistema. Aquí vive:
+
+- Arquitectura transversal (`ANCLORA_ECOSYSTEM_ARCHITECTURE_CONTRACT.md`)
+- Clasificación de apps y familias (`APPLICATION_FAMILY_MAP.md`)
+- Baseline AI Act y cumplimiento (`ANCLORA_AI_ACT_COMPLIANCE_BASELINE.md`)
+- Branding, naming, copy, SEO/GEO (`ANCLORA_BRAND_IDENTITY_AND_SEO_GEO_CONTRACT.md`)
+- Playbook de nueva app (onboarding de repos nuevos)
+- Revisión semanal de gobernanza
+
+**Regla**: si la pregunta es de ecosistema, la respuesta viene de aquí primero.
+
+### Plano 2: Entrega — Repo de producto
+
+El repo de producto (ACG, Nexus, EnergyScan, Talent…) contiene:
+
+- Feature specs (`sdd/` o `docs/sdd/`)
+- Artifacts activos: `SPEC.md`, `PLAN.md`, `TASKS.md` del change en curso
+- Implementación, tests, CI/CD
+
+**Regla**: el contexto de implementación debe limitarse al change activo + spec del módulo.
+Nunca cargar el repo completo ni el ecosistema completo.
+
+### Plano 3: Orquestación — OpenSpec + agency-agents + Specboot
+
+- **agency-agents**: catálogo de roles de agentes por fase. No es donde vive la verdad de negocio
+- **OpenSpec**: motor de cambios (`openspec/changes/`, iniciativas, workspaces)
+- **Specboot**: estándares de desarrollo y reglas de ejecución para todos los copilots
+
+**Regla**: este plano define **cómo se trabaja**, no qué es verdad.
+
+### Plano 4: Inteligencia personal — Odysseus + NotebookLM
+
+- **Odysseus**: memoria persistente, RAG local, investigación profunda, integraciones privadas
+- **NotebookLM**: Q&A y síntesis rápida sobre material SDD/research
+
+**Regla**: información que sale de este plano debe promoverse a Bóveda o SDD del repo antes de
+ser operativa. No es fuente canónica directa.
+
+---
+
+## 13. Boundaries de herramientas
+
+Conocer qué NO debe hacer cada herramienta evita el role confusion que multiplica el coste.
+
+| Herramienta | Es | No es |
+| ----------- | -- | ----- |
+| **Hermes** | Gate de calidad para copy público, curation, SEO/GEO brand-fit | Orquestador general, gestor de tenancy, publicador |
+| **Odysseus** | Memoria personal, RAG local, investigación, integraciones privadas | Repositorio de contratos de producto, datos productivos de clientes |
+| **agency-agents** | Catálogo de roles y doctrina operativa | Almacén de verdad de negocio ni de specs de features |
+| **OpenSpec** | Motor de cambios estructurados y coordinación cross-repo | Sustituto de SDD del repo ni de los contratos de Bóveda |
+| **NotebookLM** | Síntesis interactiva y explicación rápida | Fuente canónica (sus respuestas deben validarse contra Bóveda/SDD) |
+
+### Cuándo usar Hermes
+
+- Cualquier cambio que afecte **copy público** → ejecutar Hermes Copy Curator + SEOGeo
+- Adjuntar el informe al PR antes de merge
+- No es obligatorio para cambios internos sin impacto en texto visible
+
+---
+
+## 14. Riesgos sistémicos identificados
+
+### Spec split-brain
+
+El mismo cambio puede existir en cinco lugares: Bóveda SDD, repo-local `sdd/`, OpenSpec
+`changes/`, MEMORY.md / Memanto, Odysseus memory. Solo uno puede ser canónico. Si más de uno
+lo reclama, el ecosistema paga dos veces: en tokens y en drift.
+
+**Solución**: declarar ownership explícito. Para features de un repo → `sdd/` del repo es
+canónico. Para decisiones de ecosistema → Bóveda. Para coordinación cross-repo → OpenSpec.
+
+### Drift documental
+
+Cuando README, AGENTS.md, ficheros de estado e implementación no coinciden en stack y
+responsabilidades, cada sesión de planificación gasta tokens resolviendo la contradicción
+antes de hacer trabajo útil. Es exactamente el coste que CONTEXT.md intenta eliminar con
+el `SemanticComplexityAnalyzer`.
+
+**Ejemplo activo**: ACG tiene drift entre README (Next.js 15 + Better Auth + Neon + Drizzle)
+y AGENTS.md (menciona Supabase — stack antiguo). Prioridad de limpieza: alta.
+
+### Mega-workspace como entorno por defecto
+
+Abrir el workspace de 18 carpetas para cada sesión de implementación carga modelos de contexto
+que nunca se usan. El workspace amplio sirve para overview y gobernanza, no para ejecución.
+
+**Solución**: usar workspaces de iniciativa (OpenSpec `openspec workspace setup`) con solo los
+repos que el change activo necesita.
+
+---
+
+## 15. Regla de contexto mínimo
+
+Para maximizar calidad y minimizar coste en cada sesión de agente:
+
+**Fase de planning** (high-reasoning obligatorio):
+
+- Cargar: ficha del repo (Bóveda), spec activa, PLAN.md, contratos de Bóveda aplicables
+- No cargar: repo completo, historial de chat, otros repos
+
+**Fase de implementación de tarea**:
+
+- Cargar: tarea activa de `TASKS.md` + ficheros exactos que toca
+- No cargar: spec completa, plan completo, otros módulos
+
+**Resetear contexto** entre spec y entre cada tarea grande. Persistir resúmenes fuera de la
+ventana activa (MEMORY.md, Memanto, Odysseus).
+
+---
+
+## 16. Documentos relacionados
+
+- [SDD_INTEGRATION_GUIDE.md](../guides/SDD_INTEGRATION_GUIDE.md) — Workflow SDD con ciclo OpenSpec
+- [OPENSPEC_WORKFLOW.md](../guides/OPENSPEC_WORKFLOW.md) — Guía práctica OpenSpec
+- [CONTEXT.md](../token-reduction/CONTEXT.md) — Arquitectura de reducción de tokens
+- [SDD_AGENTIC_ENGINEER_LIDR.md](../reference/SDD_AGENTIC_ENGINEER_LIDR.md) — Ebook LIDR (referencia)

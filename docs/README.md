@@ -46,7 +46,8 @@ Step-by-step guides for setup, integration, and orchestration.
 
 - **[Quick Start](guides/QUICK_START.md)** — Get started in 15 minutes
 - **[Integration Guide](guides/INTEGRATION_GUIDE.md)** — Connect to your systems
-- **[SDD Integration](guides/SDD_INTEGRATION_GUIDE.md)** — SDD-specific setup
+- **[SDD Integration](guides/SDD_INTEGRATION_GUIDE.md)** — SDD + OpenSpec cycle + Specboot principles
+- **[OpenSpec Workflow](guides/OPENSPEC_WORKFLOW.md)** — OpenSpec CLI guide for the ecosystem
 - **[Workflow Orchestration](guides/WORKFLOW_ORCHESTRATION_GUIDE.md)** — Design agent workflows
 
 ### [Development Standards](standards/)
@@ -61,11 +62,12 @@ Contribution guidelines, security policies, and best practices.
 
 ### [Reference](reference/)
 
-Repository structure, examples, and optimization guides.
+Repository structure, examples, optimization guides, and external references.
 
 - **[Workspace Structure](reference/WORKSPACE_STRUCTURE.md)** — Code organization
 - **[Product Examples](reference/PRODUCT_SPECIFIC_EXAMPLES.md)** — Implementation examples
 - **[SEO/AEO Optimization](reference/SEO_AEO_OPTIMIZATION.md)** — Search optimization
+- **[SDD Agentic Engineer LIDR](reference/SDD_AGENTIC_ENGINEER_LIDR.md)** — LIDR ebook: SDD + OpenSpec + Context Engineering
 
 ### [Markdown Standards](markdown/)
 
@@ -126,11 +128,12 @@ Style guides and quality standards for documentation.
 - `token-reduction/QUICK_START.md` — 4 practical steps (caching, budgets, triage, logging)
 - `token-reduction/STRATEGY.md` — 8 deep-dive strategies with code samples
 
-**Implementation Guides** (4 documents)
+**Implementation Guides** (5 documents)
 
 - `guides/QUICK_START.md` — Get started in 15 minutes
 - `guides/INTEGRATION_GUIDE.md` — System integration and setup
-- `guides/SDD_INTEGRATION_GUIDE.md` — SDD-specific implementation
+- `guides/SDD_INTEGRATION_GUIDE.md` — SDD + OpenSpec cycle + Specboot principles
+- `guides/OPENSPEC_WORKFLOW.md` — OpenSpec CLI guide for the Anclora ecosystem
 - `guides/WORKFLOW_ORCHESTRATION_GUIDE.md` — Agent workflow design
 
 **Development Standards** (5 documents)
@@ -141,11 +144,12 @@ Style guides and quality standards for documentation.
 - `standards/GITHUB_WORKFLOW_STANDARDS.md` — GitHub best practices
 - `standards/GITHUB_ACTIONS_TEMPLATES.md` — CI/CD automation patterns
 
-**Reference** (3 documents)
+**Reference** (4 documents)
 
 - `reference/WORKSPACE_STRUCTURE.md` — Repository and code organization
 - `reference/PRODUCT_SPECIFIC_EXAMPLES.md` — Real-world implementation examples
 - `reference/SEO_AEO_OPTIMIZATION.md` — Search and AI visibility strategies
+- `reference/SDD_AGENTIC_ENGINEER_LIDR.md` — LIDR ebook: SDD methodology, OpenSpec, Context Engineering
 
 **Anclora Integration** (5 documents)
 

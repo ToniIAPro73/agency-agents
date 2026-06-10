@@ -356,12 +356,55 @@ de forma autónoma.
 
 ---
 
+## Migración a Infraestructura Compartida
+
+**Estado**: Recomendado — pendiente de acción
+
+Dos análisis externos del ecosistema Anclora (Perplexity + ChatGPT Operating Model, junio 2026)
+convergen en la misma conclusión: **CONTEXT.md no debe vivir como documento huérfano en
+agency-agents**. Debe convertirse en infraestructura compartida consumida por todos los workers.
+
+### Por qué migrar
+
+- El `SemanticComplexityAnalyzer` propuesto es relevante para **todos los repos Anclora**:
+  agency-agents workers, Hermes (ACG), wrappers de Codex/Claude Code
+- La arquitectura de token reduction afecta decisiones de ecosistema → debe vivir donde viven
+  las decisiones de ecosistema: **la Bóveda**
+- Mantenerlo solo aquí crea el mismo problema que resuelve: duplicación y drift
+
+### Pasos de migración
+
+1. Replicar este documento en Bóveda como
+   `docs/sistemas/token-reduction.md` (o `docs/research/`)
+2. Enlazar desde `ANCLORA_ECOSYSTEM_ARCHITECTURE_CONTRACT.md` como sección
+   *Token Reduction Architecture*
+3. Una vez en Bóveda, este fichero pasa a ser un resumen con enlace canónico
+
+### Status del módulo: Library Candidate
+
+El `SemanticComplexityAnalyzer` y `build_context_from_sdd()` deben implementarse como
+**librería compartida** (Python y/o TypeScript) consumida por:
+
+| Consumidor | Uso |
+| ---------- | --- |
+| agency-agents workers | Clasificación de complejidad antes de invoke |
+| Hermes (ACG) | Routing de generación de contenido por nivel de tarea |
+| Wrappers Claude Code / Codex | Construcción autónoma del `analysis` dict |
+| Cualquier repo Anclora con invoke_agent | Punto de entrada único |
+
+Referencia: [SDD_AGENTIC_ENGINEER_LIDR.md](../reference/SDD_AGENTIC_ENGINEER_LIDR.md) —
+Cap 05 (Context Engineering) describe exactamente esta arquitectura de contexto compartido.
+
+---
+
 ## Relación con Otros Documentos
 
 - [IMPLEMENTATION_ARCHITECTURE.md](IMPLEMENTATION_ARCHITECTURE.md) — Diseño técnico base (a actualizar)
 - [SDD_INTEGRATION_GUIDE.md](../guides/SDD_INTEGRATION_GUIDE.md) — SDD workflow de Anclora
 - [STRATEGY.md](STRATEGY.md) — Estrategias de alto nivel para reducción de tokens
 - [QUICK_START.md](QUICK_START.md) — Guía de implementación rápida
+- [OPENSPEC_WORKFLOW.md](../guides/OPENSPEC_WORKFLOW.md) — Ciclo completo OpenSpec
+- [SDD_AGENTIC_ENGINEER_LIDR.md](../reference/SDD_AGENTIC_ENGINEER_LIDR.md) — Ebook LIDR (referencia teórica)
 
 ---
 

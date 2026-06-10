@@ -622,11 +622,160 @@ codex ask --agent code-reviewer \
 
 ---
 
+## El Ciclo OpenSpec (LIDR Methodology)
+
+OpenSpec es el CLI que operacionaliza SDD en la práctica. Implementa el ciclo completo desde
+user story hasta feature archivada, con comandos concretos para cada agente.
+
+**Instalar OpenSpec**:
+
+```bash
+npm install -g fission-ai/openspec@latest
+cd tu-repo
+openspec init --tools claude,cursor
+```
+
+### Ciclo completo: Proposal → Apply → Archive
+
+```text
+User Story
+    ↓ /enrich_us          ← Agente refina la user story, detecta ambigüedades
+Refined User Story
+    ↓ /new + /ff          ← Crea proposal: branch + tests + docs + código + testing report
+Proposal Artifacts
+    ↓ /apply              ← Agente ejecuta el contrato sin improvisar
+Feature For PR
+    ↓ /code-review        ← Revisión automática contra spec antes del revisor humano
+    ↓ /commit             ← Commit estructurado (Conventional Commits) referenciando spec
+Feature Ready
+    ↓ /verify + /archive  ← Validación final contra criterios; spec archivada
+Feature Published
+```
+
+### Comandos del ciclo
+
+| Comando | Qué hace |
+| ------- | -------- |
+| `/enrich_us` | Analiza la user story, detecta ambigüedades, produce Refined User Story con contexto técnico |
+| `/new + /ff` | Genera Proposal Artifacts: spec completa con diseño, tareas y criterios de aceptación |
+| `/apply` | Ejecuta el contrato en paralelo: branch, tests, docs, código, testing report, proposal update |
+| `/code-review` | Revisión del código generado contra la spec; resuelve inconsistencias antes del revisor humano |
+| `/commit` | Genera commit Conventional Commits con referencia a la spec |
+| `/verify + /archive` | Validación final; archiva la proposal en `changes/archive/YYYY-MM-DD-<nombre>/` |
+
+**Regla de oro**: una spec es inmutable una vez archivada. Los cambios futuros generan nuevas
+specs. Nunca editar specs archivadas.
+
+---
+
+## Specboot — Principios de desarrollo
+
+**Specboot** (`npx lidr/lidr-specboot`) es la plantilla portable que "bootea" el flujo SDD
+en cualquier proyecto. Define los 7 principios que gobiernan el desarrollo en todos los repos.
+
+```bash
+cd tu-repo
+npx lidr/lidr-specboot
+```
+
+### Los 7 principios
+
+| # | Principio | Descripción |
+| - | --------- | ----------- |
+| 1 | **Small Tasks, One at a Time** | Baby steps, nunca saltarse pasos |
+| 2 | **Test-Driven Development** | Escribir tests fallidos antes de implementar |
+| 3 | **Type Safety** | Código completamente tipado (TypeScript) |
+| 4 | **Clear Naming** | Variables y funciones descriptivas |
+| 5 | **English Only** | Todo el código, comentarios y docs técnicos en inglés |
+| 6 | **90% Test Coverage** | Cobertura exhaustiva en todas las capas |
+| 7 | **Incremental Changes** | Modificaciones focalizadas y revisables |
+
+### Multi-copilot sin duplicación
+
+Specboot crea symlinks para que todos los copilots (CLAUDE.md, AGENTS.md, codex.md, GEMINI.md)
+apunten al mismo `docs/base-standards.md`. Un solo fichero, todos los copilots sincronizados.
+
+---
+
+## Granularidad correcta de tasks.md
+
+El agente improvisa cuando las tareas son vagas. La regla práctica:
+
+> **Una tarea está bien granularizada cuando su criterio de éxito cabe en una sola frase.**
+> Si necesitas "y" o "además", divídela.
+
+| Tarea vaga (el agente improvisa) | Tarea granularizada (el agente ejecuta) |
+| -------------------------------- | --------------------------------------- |
+| Implementar el sistema de filtrado | Crear componente `FilterBar` con props `filters: FilterState`, `onChange: callback`. Tests unitarios para estado vacío, un filtro activo, múltiples filtros activos |
+| Añadir los tests | Test E2E: dado usuario autenticado en `/list`, cuando selecciona filtro "activo", entonces la URL incluye `?status=active` y la lista muestra solo ítems en ese estado |
+| Documentar los cambios | Actualizar ADR-0042 con la decisión de filtrado client-side. Añadir ejemplo en Storybook bajo categoría `Filters` |
+
+---
+
+## Tasks obligatorias en tasks.md (agentes de backend)
+
+El agente **debe ejecutar todos los tests** — nunca pedir al usuario que corra curls ni
+validaciones manuales. Estas secciones son obligatorias en cualquier `tasks.md` de backend:
+
+```markdown
+## 9. Backend Unit Tests (MANDATORY)
+- [ ] 9.1 Capture pre-test database baseline
+- [ ] 9.2 Run targeted unit tests for changed modules
+- [ ] 9.3 Run broader unit test suite
+- [ ] 9.4 Verify post-test database state and restore if needed
+
+## 10. Backend Manual Endpoint Testing with curl (MANDATORY — AGENT MUST EXECUTE)
+- [ ] 10.1 Ensure backend server is running (agent starts it if needed)
+- [ ] 10.2 Test GET endpoints and verify responses
+- [ ] 10.3 Test POST/PUT/DELETE endpoints, verify, restore DB state
+- [ ] 10.4 Test error cases (validation, 404, etc.)
+
+## 11. Frontend E2E Testing with Playwright (MANDATORY if applicable)
+- [ ] 11.1 Ensure both servers are running
+- [ ] 11.2 Execute complete user workflow via Playwright
+- [ ] 11.3 Test error scenarios and validation
+- [ ] 11.4 Restore test environment and database state
+```
+
+**Una tarea solo se puede marcar `[x]` completada después de ejecutar y verificar sus tests.**
+
+---
+
+## Flujo de trabajo recomendado por fase (SDD + OpenSpec + agency-agents)
+
+```bash
+# 0. Crear worktree aislado (opcional pero recomendado)
+git worktree add ../feature-branch feature/branch-name
+
+# 1. Enriquecer la user story
+enrich-us TICKET-42
+
+# 2. Crear artifacts OpenSpec (proposal → design → specs → tasks)
+ff TICKET-42      # fast-forward: crea todos los artifacts
+
+# 3. Implementar tarea a tarea
+apply TICKET-42   # el agente ejecuta tasks.md y marca completadas
+
+# 4. Validar implementación
+verify TICKET-42  # valida contra los artifacts del change
+
+# 5. Revisión independiente
+# codex ask --agent code-reviewer "Review this PR against the SPEC and PLAN"
+
+# 6. Commit y archivar
+commit            # conventional commits + gestión PR
+archive TICKET-42 # openspec archive
+```
+
+---
+
 ## Related Documents
 
+- [OPENSPEC_WORKFLOW.md](OPENSPEC_WORKFLOW.md) — Guía práctica completa de OpenSpec
 - [GITHUB_WORKFLOW_STANDARDS.md](GITHUB_WORKFLOW_STANDARDS.md) — Git flow and branch strategy
 - [WORKFLOW_ORCHESTRATION_GUIDE.md](WORKFLOW_ORCHESTRATION_GUIDE.md) — Automating with agents
-- [AGENT_PERFORMANCE_BASELINES.md](AGENT_PERFORMANCE_BASELINES.md) — What agents should do
+- [AGENT_PERFORMANCE_BASELINES.md](../agents/AGENT_PERFORMANCE_BASELINES.md) — What agents should do
+- [SDD_AGENTIC_ENGINEER_LIDR.md](../reference/SDD_AGENTIC_ENGINEER_LIDR.md) — Ebook LIDR (fundamento teórico)
 - **[SDD NotebookLM](https://notebooklm.google.com/notebook/94462119-4635-4039-827d-e46042428871)** — Interactive SDD Q&A
 
 ---
@@ -642,12 +791,16 @@ codex ask --agent code-reviewer \
 5. **Every PR** validates against SPEC (does it match?)
 6. **Every deployment** verifies success metrics (did it work?)
 
-**With Agency Agents**: Every step is supported by specialized agents who understand SDD and
-Anclora standards.
+**With OpenSpec**: The full cycle (`/enrich_us → /ff → /apply → /code-review → /commit →
+/verify + /archive`) automates artifact creation, code generation, review, and archiving.
+
+**With Specboot**: The 7 principles (TDD, 90% coverage, English-only, type safety, incremental
+changes) apply uniformly across all copilots and all repos.
 
 ---
 
 **Maintained by**: Anclora Engineering Team
 **Last updated**: 2026-06-10
 **Reference**: [SDD NotebookLM](https://notebooklm.google.com/notebook/94462119-4635-4039-827d-e46042428871)
+**Ebook LIDR**: [SDD_AGENTIC_ENGINEER_LIDR.md](../reference/SDD_AGENTIC_ENGINEER_LIDR.md)
 **Status**: Mandatory for all development
